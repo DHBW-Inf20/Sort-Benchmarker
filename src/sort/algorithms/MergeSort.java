@@ -6,14 +6,14 @@ import java.lang.Math;
 
 public class MergeSort
 {
-    private List<Integer> unsortedLeftPart = new ArrayList<>();
-    private List<Integer> unsortedRightPart = new ArrayList<>();
-    private List<Integer> sortedLeftPart = new ArrayList<>();
-    private List<Integer> sortedRightPart = new ArrayList<>();
-    private List<Integer> sortedList = new ArrayList<>();
-
     public List<Integer> GetSortedList (List<Integer> unsortedList)
     {
+        List<Integer> unsortedLeftPart = new ArrayList<>();
+        List<Integer> unsortedRightPart = new ArrayList<>();
+        List<Integer> sortedLeftPart = new ArrayList<>();
+        List<Integer> sortedRightPart = new ArrayList<>();
+        List<Integer> sortedList = new ArrayList<>();
+
         if (unsortedList.size() == 1)
         {
             return unsortedList;

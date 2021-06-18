@@ -5,10 +5,9 @@ import java.util.List;
 
 public class SelectionSort
 {
-    private List<Integer> sortedList = new ArrayList<>();
-
     public List<Integer> GetSortedList (List<Integer> unsortedList)
     {
+        List<Integer> sortedList = new ArrayList<>();
         int firstElement = unsortedList.get(0);
         int minimum = firstElement;
         int indexOfMinimum = 0;

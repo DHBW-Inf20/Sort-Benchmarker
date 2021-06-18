@@ -5,10 +5,10 @@ import java.util.List;
 
 public class BubbleSort
 {
-    private List<Integer> sortedList = new ArrayList<>();
 
     public List<Integer> GetSortedList (List<Integer> list, boolean swapped)
     {
+        List<Integer> sortedList = new ArrayList<>();
         int firstElement;
         int secondElement;
 
