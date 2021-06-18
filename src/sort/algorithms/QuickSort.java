@@ -1,88 +1,53 @@
 package sort.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
+import sort.Sorter;
 
-public class QuickSort
-{
-    public List<Integer> GetSortedList (List<Integer> unsortedList, int pivotID)
-    {
-        int pivotElement;
-        List<Integer> unsortedLeftPart = new ArrayList<>();
-        List<Integer> unsortedRightPart = new ArrayList<>();
-        List<Integer> sortedLeftPart = new ArrayList<>();
-        List<Integer> sortedRightPart = new ArrayList<>();
-        List<Integer> sortedList = new ArrayList<>();
+public class QuickSort extends Sorter {
 
-        if (unsortedList.size() == 1)
-        {
-            return unsortedList;
+    public static int[] unsortedArray;
+
+    public int[] sort(int unsortedLeftPart, int unsortedRightPart) {
+        int dividedArray;
+        if (unsortedLeftPart < unsortedRightPart) {
+            dividedArray = partition(unsortedLeftPart, unsortedRightPart);
+            sort(unsortedLeftPart, dividedArray);
+            sort(dividedArray + 1, unsortedRightPart);
         }
+        return unsortedArray;
+    }
 
-        if (pivotID == 0)
-        {
-            pivotElement = unsortedList.get(0);
+    int partition(int unsortedLeftPart, int unsortedRightPart) {
 
-            for (int i = 1; i < unsortedList.size(); i++)
-            {
-                if (unsortedList.get(i) <= pivotElement)
-                {
-                    unsortedLeftPart.add(unsortedList.get(i));
-                }
-                else
-                {
-                    unsortedRightPart.add(unsortedList.get(i));
-                }
+        int sortedLeftPart, sortedRightPart, pivot = unsortedArray[(unsortedLeftPart + unsortedRightPart) / 2];
+        sortedLeftPart = unsortedLeftPart - 1;
+        sortedRightPart = unsortedRightPart + 1;
+        while (true) {
+            do {
+                sortedLeftPart++;
+            } while (unsortedArray[sortedLeftPart] < pivot);
 
-                sortedLeftPart = GetSortedList(unsortedLeftPart, pivotID);
-                sortedRightPart = GetSortedList(unsortedRightPart, pivotID);
+            do {
+                sortedRightPart--;
+            } while (unsortedArray[sortedRightPart] > pivot);
+
+            if (sortedLeftPart < sortedRightPart) {
+                int k = unsortedArray[sortedLeftPart];
+                unsortedArray[sortedLeftPart] = unsortedArray[sortedRightPart];
+                unsortedArray[sortedRightPart] = k;
+            } else {
+                return sortedRightPart;
             }
         }
-        else if (pivotID == 1)
-        {
-            pivotElement = unsortedList.get(unsortedList.size() - 1);
+    }
 
-            for (int i = 0; i < unsortedList.size() - 1; i++)
-            {
-                if (unsortedList.get(i) <= pivotElement)
-                {
-                    unsortedLeftPart.add(unsortedList.get(i));
-                } else {
-                    unsortedRightPart.add(unsortedList.get(i));
-                }
+    @Override
+    public String getName() {
+        return "QuickSort";
+    }
 
-                sortedLeftPart = GetSortedList(unsortedLeftPart, pivotID);
-                sortedRightPart = GetSortedList(unsortedRightPart, pivotID);
-            }
-        }
-        else
-        {
-            pivotElement = unsortedList.get(unsortedList.size() / 2);
-            int indexOfPivotElement = unsortedList.indexOf(unsortedList.get(unsortedList.size() / 2));
-
-            for (int i = 0; i < unsortedList.size(); i++)
-            {
-                if (i == indexOfPivotElement)
-                {
-                    continue;
-                }
-
-                if (unsortedList.get(i) <= pivotElement)
-                {
-                    unsortedLeftPart.add(unsortedList.get(i));
-                } else {
-                    unsortedRightPart.add(unsortedList.get(i));
-                }
-
-                sortedLeftPart = GetSortedList(unsortedLeftPart, pivotID);
-                sortedRightPart = GetSortedList(unsortedRightPart, pivotID);
-            }
-        }
-
-        sortedList.addAll(unsortedLeftPart);
-        sortedList.add(pivotElement);
-        sortedList.addAll(unsortedRightPart);
-
-        return sortedList;
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
+        return new int[0];
     }
 }

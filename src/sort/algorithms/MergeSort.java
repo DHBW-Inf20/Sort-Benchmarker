@@ -1,33 +1,35 @@
 package sort.algorithms;
 
-public class MergeSort {
+import sort.Sorter;
 
-    public static int[] unsortedArray = { 16, 23, 14, 7, 21, 20, 6, 1, 17, 13, 12, 9, 3, 19 };
+public class MergeSort extends Sorter{
 
-    public int[] sort(int leftPart, int rightPart) {
+    public static int[] unsortedArray;
 
-        if (leftPart < rightPart) {
-            int dividedList = (leftPart + rightPart) / 2;
+    public int[] sort(int unsortedLeftPart, int unsortedRightPart) {
 
-            sort(leftPart, dividedList);
-            sort(dividedList + 1, rightPart);
-            merge(leftPart, dividedList, rightPart);
+        if (unsortedLeftPart < unsortedRightPart) {
+            int dividedArray = (unsortedLeftPart + unsortedRightPart) / 2;
+
+            sort(unsortedLeftPart, dividedArray);
+            sort(dividedArray + 1, unsortedRightPart);
+            merge(unsortedLeftPart, dividedArray, unsortedRightPart);
         }
         return unsortedArray;
     }
 
-    private void merge(int leftPart, int dividedList, int rightPart) {
+    private void merge(int leftPart, int dividedList, int unsortedRightPart) {
         int[] sortedArray = new int[unsortedArray.length];
         int sortedLeftPart, sortedRightPart;
         for (sortedLeftPart = leftPart; sortedLeftPart <= dividedList; sortedLeftPart++) {
             sortedArray[sortedLeftPart] = unsortedArray[sortedLeftPart];
         }
-        for (sortedRightPart = dividedList + 1; sortedRightPart <= rightPart; sortedRightPart++) {
-            sortedArray[rightPart + dividedList + 1 - sortedRightPart] = unsortedArray[sortedRightPart];
+        for (sortedRightPart = dividedList + 1; sortedRightPart <= unsortedRightPart; sortedRightPart++) {
+            sortedArray[unsortedRightPart + dividedList + 1 - sortedRightPart] = unsortedArray[sortedRightPart];
         }
         sortedLeftPart = leftPart;
-        sortedRightPart = rightPart;
-        for (int k = leftPart; k <= rightPart; k++) {
+        sortedRightPart = unsortedRightPart;
+        for (int k = leftPart; k <= unsortedRightPart; k++) {
             if (sortedArray[sortedLeftPart] <= sortedArray[sortedRightPart]) {
                 unsortedArray[k] = sortedArray[sortedLeftPart];
                 sortedLeftPart++;
@@ -36,5 +38,16 @@ public class MergeSort {
                 sortedRightPart--;
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "MergeSort";
+    }
+
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
+        return new int[0];
     }
 }

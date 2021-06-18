@@ -26,8 +26,8 @@ public class Main
 
         QuickSort quickSort = new QuickSort();
         System.out.println("Quick Sort:");
-        List<Integer> sortedListWithQuickSort = quickSort.GetSortedList(unsortedList, 0);
-        System.out.println(sortedListWithQuickSort);
+        //List<Integer> sortedListWithQuickSort = quickSort.GetSortedList(unsortedList, 0);
+        //System.out.println(sortedListWithQuickSort);
 
         Thread.sleep(10000);
     }
