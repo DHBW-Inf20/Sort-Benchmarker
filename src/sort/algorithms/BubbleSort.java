@@ -1,38 +1,33 @@
 package sort.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
+import sort.Sorter;
 
-public class BubbleSort
-{
+public class BubbleSort extends Sorter {
 
-    public List<Integer> GetSortedList (List<Integer> list, boolean swapped)
-    {
-        List<Integer> sortedList = new ArrayList<>();
-        int firstElement;
-        int secondElement;
+    public int[] unsortedArray;
 
-        if (swapped)
-        {
-            swapped = false;
-
-            for (int i = 0; i <list.size() - 1; i++)
-            {
-                firstElement = list.get(i);
-                secondElement = list.get(i + 1);
-
-                if (firstElement > secondElement)
-                {
-                    list.set(i, secondElement);
-                    list.set(i + 1, firstElement);
-
-                    swapped = true;
-                }
+    public int[] sort() {
+        int temp;
+        for (int i = 0; i < unsortedArray.length - 1; i++) {
+            if (unsortedArray[i] < unsortedArray[i + 1]) {
+                continue;
             }
-
-            GetSortedList(list, swapped);
+            temp = unsortedArray[i];
+            unsortedArray[i] = unsortedArray[i + 1];
+            unsortedArray[i + 1] = temp;
+            sort();
         }
+        return unsortedArray;
+    }
 
-        return list;
+    @Override
+    public String getName() {
+        return "BubbleSort";
+    }
+
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
+        return new int[0];
     }
 }

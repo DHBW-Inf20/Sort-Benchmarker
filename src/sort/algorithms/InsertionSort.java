@@ -1,55 +1,33 @@
 package sort.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import sort.Sorter;
 
-public class InsertionSort
-{
-    public List<Integer> GetSortedList (List<Integer> sortedList, List<Integer> unsortedList)
-    {
-        if (unsortedList.size() == 0)
-        {
-            return sortedList;
-        }
+public class InsertionSort extends Sorter {
 
-        if (sortedList == null)
-        {
-            sortedList.add(unsortedList.get(0));
-            unsortedList.remove(0);
-        }
-        else
-        {
-            if (sortedList.get(-1) >= unsortedList.get(0))
-            {
-                sortedList.add(unsortedList.get(0));
-                unsortedList.remove(0);
-            }
-            else
-            {
-                int lastSortedElement = sortedList.get(-1);
-                List<Integer> tempList = new ArrayList<>();
-                boolean searching = true;
+    public int[] unsortedArray;
 
-                while (searching)
-                {
-                    if (sortedList.get(-1) > unsortedList.get(0))
-                    {
-                        tempList.add(0, sortedList.get(-1));
-                        sortedList.remove(-1);
-                    }
-                    else
-                    {
-                        sortedList.add(unsortedList.get(0));
-                        sortedList.addAll(tempList);
-                        unsortedList.remove(0);
-
-                        searching = false;
-                    }
+    public int[] sort() {
+        int temp;
+        for (int i = 0; i < unsortedArray.length; i++) {
+            for (int j = unsortedArray.length-1; j > 0; j--) {
+                if (unsortedArray[j-1] > unsortedArray[j]) {
+                    temp = unsortedArray[j];
+                    unsortedArray[j] = unsortedArray[j - 1];
+                    unsortedArray[j - 1] = temp;
                 }
             }
         }
+        return unsortedArray;
+    }
 
-        return GetSortedList(sortedList, unsortedList);
+    @Override
+    public String getName() {
+        return "InsertionSort";
+    }
+
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
+        return new int[0];
     }
 }

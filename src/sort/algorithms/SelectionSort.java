@@ -1,40 +1,35 @@
 package sort.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
+import sort.Sorter;
 
-public class SelectionSort
-{
-    public List<Integer> GetSortedList (List<Integer> unsortedList)
-    {
-        List<Integer> sortedList = new ArrayList<>();
-        int firstElement = unsortedList.get(0);
-        int minimum = firstElement;
-        int indexOfMinimum = 0;
-        List<Integer> partList = new ArrayList<>();
+public class SelectionSort extends Sorter {
 
-        if (unsortedList.size() == 1)
-        {
-            return unsortedList;
-        }
+    public int[] unsortedArray;
 
-        for (int i = 1; i < unsortedList.size() + 1; i++)
-        {
-            if (i == unsortedList.size())
-            {
-                unsortedList.set(0, minimum);
-                unsortedList.set(indexOfMinimum, firstElement);
-
-                partList.subList(1, unsortedList.size() - 1);
-
-                partList = GetSortedList(partList);
+    public int[] sort() {
+        int q, temp;
+        for (int i = unsortedArray.length - 1; i >= 1; i--) {
+            q = 0;
+            for (int j = 1; j <= i; j++) {
+                if (unsortedArray[j] > unsortedArray[q]) {
+                    q = j;
+                }
             }
-
+            temp = unsortedArray[q];
+            unsortedArray[q] = unsortedArray[i];
+            unsortedArray[i] = temp;
         }
+        return unsortedArray;
+    }
 
-        sortedList.add(minimum);
-        sortedList.addAll(partList);
+    @Override
+    public String getName() {
+        return "SelectionSort";
+    }
 
-        return sortedList;
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
+        return new int[0];
     }
 }
