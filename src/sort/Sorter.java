@@ -9,7 +9,6 @@ public abstract class Sorter {
 
     public Sorter() {
         this.sortOptions = new SortOptions();
-        System.out.println("TEST");
     }
 
     public void addOption(SortOption option) {
