@@ -1,53 +1,40 @@
 package sort.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.Math;
+public class MergeSort {
 
-public class MergeSort
-{
-    public List<Integer> GetSortedList (List<Integer> unsortedList)
-    {
-        List<Integer> unsortedLeftPart = new ArrayList<>();
-        List<Integer> unsortedRightPart = new ArrayList<>();
-        List<Integer> sortedLeftPart = new ArrayList<>();
-        List<Integer> sortedRightPart = new ArrayList<>();
-        List<Integer> sortedList = new ArrayList<>();
+    public static int[] unsortedArray = { 16, 23, 14, 7, 21, 20, 6, 1, 17, 13, 12, 9, 3, 19 };
 
-        if (unsortedList.size() == 1)
-        {
-            return unsortedList;
+    public int[] sort(int leftPart, int rightPart) {
+
+        if (leftPart < rightPart) {
+            int dividedList = (leftPart + rightPart) / 2;
+
+            sort(leftPart, dividedList);
+            sort(dividedList + 1, rightPart);
+            merge(leftPart, dividedList, rightPart);
         }
+        return unsortedArray;
+    }
 
-        for (int i = 0; i < Math.floor(unsortedList.size() / 2); i++)
-        {
-            unsortedLeftPart.add(unsortedList.get(i));
+    private void merge(int leftPart, int dividedList, int rightPart) {
+        int[] sortedArray = new int[unsortedArray.length];
+        int sortedLeftPart, sortedRightPart;
+        for (sortedLeftPart = leftPart; sortedLeftPart <= dividedList; sortedLeftPart++) {
+            sortedArray[sortedLeftPart] = unsortedArray[sortedLeftPart];
         }
-        for (int i = (int) Math.floor(unsortedList.size() / 2); i < unsortedList.size(); i++)
-        {
-            unsortedRightPart.add(unsortedList.get(i));
+        for (sortedRightPart = dividedList + 1; sortedRightPart <= rightPart; sortedRightPart++) {
+            sortedArray[rightPart + dividedList + 1 - sortedRightPart] = unsortedArray[sortedRightPart];
         }
-
-        sortedLeftPart = GetSortedList(unsortedLeftPart);
-        sortedRightPart = GetSortedList(unsortedRightPart);
-
-        for (int i = 0; i < sortedLeftPart.size() + sortedRightPart.size() + 1; i++)
-        {
-            int firstElementOfLeftPart = sortedLeftPart.get(0);
-            int firstElementOfRightPart = sortedRightPart.get(0);
-
-            if (firstElementOfLeftPart <= sortedRightPart.get(0))
-            {
-                sortedList.add(firstElementOfLeftPart);
-                sortedLeftPart.remove(0);
-            }
-            else
-            {
-                sortedList.add(firstElementOfRightPart);
-                sortedRightPart.remove(0);
+        sortedLeftPart = leftPart;
+        sortedRightPart = rightPart;
+        for (int k = leftPart; k <= rightPart; k++) {
+            if (sortedArray[sortedLeftPart] <= sortedArray[sortedRightPart]) {
+                unsortedArray[k] = sortedArray[sortedLeftPart];
+                sortedLeftPart++;
+            } else {
+                unsortedArray[k] = sortedArray[sortedRightPart];
+                sortedRightPart--;
             }
         }
-
-        return sortedList;
     }
 }

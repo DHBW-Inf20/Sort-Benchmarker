@@ -9,7 +9,7 @@ import java.util.List;
 public class Main
 {
     public static void main(String[] args) throws InterruptedException {
-        int unsortedArrayList[] = {9,5,3,8,2,7,1};
+        int[] unsortedArrayList = {9,5,3,8,2,7,1};
 
         List<Integer> unsortedList = new ArrayList<>();
 
@@ -21,8 +21,8 @@ public class Main
 
         MergeSort mergeSort = new MergeSort();
         System.out.println("Merge Sort:");
-        List<Integer> sortedListWithMergeSort = mergeSort.GetSortedList(unsortedList);
-        System.out.println(sortedListWithMergeSort);
+        //List<Integer> sortedListWithMergeSort = mergeSort.GetSortedList(unsortedList);
+        //System.out.println(sortedListWithMergeSort);
 
         QuickSort quickSort = new QuickSort();
         System.out.println("Quick Sort:");
