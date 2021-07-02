@@ -1,5 +1,6 @@
 package sort;
 
+import sort.options.OptionType;
 import sort.options.SortOption;
 import sort.options.SortOptions;
 
@@ -9,6 +10,7 @@ public abstract class Sorter {
 
     public Sorter() {
         this.sortOptions = new SortOptions();
+        addOption(new SortOption("Name", OptionType.STRING, getName()));
     }
 
     public void addOption(SortOption option) {
@@ -27,6 +29,11 @@ public abstract class Sorter {
         return sortOptions;
     }
 
+    public String getDisplayName() {
+        return (String) getValue("Name");
+    }
+
     public abstract String getName();
+
     public abstract int[] sort(int[] toSort);
 }
