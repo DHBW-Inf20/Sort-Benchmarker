@@ -19,19 +19,28 @@ public class AlgorithmOptions  extends JFrame implements ActionListener, ItemLis
     private Border borderCenter =
             BorderFactory.createEmptyBorder(10, 10,10,10);
 
+    private Box boxName = Box.createHorizontalBox();
+    private Box boxThreads = Box.createHorizontalBox();
+
+    private JButton btnDone;
+
+    private JLabel name;
+    private JLabel threads;
+
     private JPanel contents;
     private JPanel panelCenter;
+    private JPanel panelSouth;
 
     private JTextField algName;
 
-    private JLabel name;
 
     public AlgorithmOptions() {
         setTitle("hier name des Algorithmus " + "custom options");
 
+        //content region
         contents = new JPanel();
         contents.setBorder(borderContents);
-        contents.setLayout(new BorderLayout());
+        contents.setLayout(new BoxLayout(contents,BoxLayout.Y_AXIS));
         setContentPane(contents);
 
         panelCenter = new JPanel();
@@ -41,15 +50,29 @@ public class AlgorithmOptions  extends JFrame implements ActionListener, ItemLis
 
         algName = new JTextField(20);
         algName.setText("Hier den Namen als Vorschlag rein");
-        algName.addActionListener(this); //hier bin ich
+
+        threads = new JLabel("Threads:");
 
         panelCenter.add(name);
         panelCenter.add(algName);
 
+      //panelCenter.add(Box.createRigidArea(new Dimension(10,1)));
+
+        panelCenter.add(threads);
         contents.add(panelCenter);
         panelCenter.add(Box.createRigidArea(new Dimension(10,1)));
 
+        //bottom region
+        panelSouth = new JPanel();
+        panelSouth.setBorder(borderCenter);
+        btnDone= new JButton("Done");
+        panelSouth.add(btnDone);
+        contents.add(panelSouth, BorderLayout.SOUTH);
 
+        //add event handlers
+        btnDone.addActionListener(this);
+
+        //size and display window
         setSize(850, 460);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -63,7 +86,11 @@ public class AlgorithmOptions  extends JFrame implements ActionListener, ItemLis
 
         @Override
         public void actionPerformed (ActionEvent e){
-
+            Object source = e.getSource();
+            if (source == btnDone) {
+                //fensterschließen
+                return;
+            }
         }
 
         @Override
