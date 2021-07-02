@@ -20,8 +20,6 @@ public class GUI extends JFrame {
         JPanel panel = new JPanel();
         this.initPanel(panel);
         this.add(panel);
-
-        // Dev Branch Test
     }
 
     private void initPanel(JPanel panel) {
