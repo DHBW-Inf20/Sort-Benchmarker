@@ -1,14 +1,11 @@
 package dhbw.main;
 
-import sort.algorithms.MergeSort;
-import sort.algorithms.QuickSort;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main
 {
     public static void main(String[] args) throws InterruptedException {
+
+
+
         int[] unsortedArrayList = {9,5,3,8,2,7,1};
 
         List<Integer> unsortedList = new ArrayList<>();
@@ -30,5 +27,7 @@ public class Main
         //System.out.println(sortedListWithQuickSort);
 
         Thread.sleep(10000);
+
+
     }
 }
