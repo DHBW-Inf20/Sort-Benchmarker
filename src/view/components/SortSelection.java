@@ -11,17 +11,40 @@ public class SortSelection extends JPanel {
 
         JPanel panel = new JPanel();
         init(panel);
-        JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(8);
-        add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
     }
 
     private void init(JPanel panel) {
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.weighty = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        JPanel selectPanel = new JPanel();
+        initSelectPane(selectPanel);
+        JScrollPane selectPane = new JScrollPane(selectPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        selectPane.getVerticalScrollBar().setUnitIncrement(8);
+
+        JPanel selectedPanel = new JPanel();
+        // TODO: initSelectedPane
+        JScrollPane selectedPane = new JScrollPane(selectedPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        selectedPane.getVerticalScrollBar().setUnitIncrement(8);
+
+        panel.add(selectPane, c);
+        c.gridy = 1;
+        panel.add(selectedPane, c);
+    }
+
+    private void initSelectPane(JPanel panel) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (int i = 0; i < 5; i++) {
             panel.add(getAlgorithmComponent("Algorithmus " + i));
         }
-        panel.setVisible(true);
     }
 
     private JComponent getAlgorithmComponent(String name) {
