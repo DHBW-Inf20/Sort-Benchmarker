@@ -15,7 +15,7 @@ public class GUI extends JFrame {
     }
 
     private void initFrame() {
-        this.setSize(800, 800);
+        this.setSize(1400, 800);
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -27,15 +27,10 @@ public class GUI extends JFrame {
     private void initPanel(JPanel panel) {
         panel.setLayout(new BorderLayout());
 
-//        JLabel test = new JLabel("Testttttttttttttttttttttttttttttttttttttttttttttttttttt");
-//        test.setSize(100, 100);
-//        test.setLocation(50, 50);
-//        panel.add(test);
-
         SortSelection sortSelection = new SortSelection();
-//        sortSelection.setBackground(Color.BLUE);
+
         // Set width for sort selection panel
-        sortSelection.setPreferredSize(new Dimension(400, 0));
+        sortSelection.setPreferredSize(new Dimension(350, 0));
         panel.add(sortSelection, BorderLayout.WEST);
 
         panel.setVisible(true);
