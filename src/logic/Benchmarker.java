@@ -20,6 +20,10 @@ public class Benchmarker {
         sortPool = new ArrayList<>();
     }
 
+    public List<String> getAvailableSorter() {
+        return new ArrayList<>(sortClasses.keySet());
+    }
+
     public List<Sorter> getSortPool() {
         return sortPool;
     }
@@ -27,6 +31,22 @@ public class Benchmarker {
     public void addSorterClass(Class<? extends Sorter> sorter) {
         String name = sorter.getSimpleName();
         sortClasses.put(name, sorter);
+    }
+
+    public Sorter initOne(String name) {
+        Class<? extends Sorter> sorterClass = sortClasses.get(name);
+        try {
+            Sorter sorter = sorterClass.getDeclaredConstructor().newInstance();
+            sortPool.add(sorter);
+            return sorter;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void removeSorter(Sorter sorter) {
+        sortPool.remove(sorter);
     }
 
     public void initAll() {

@@ -1,15 +1,21 @@
 package view;
 
+import logic.Benchmarker;
+import sort.algorithms.*;
 import view.components.SortSelection;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
-    public GUI() {
+    private Benchmarker benchmarker;
+
+    public GUI(Benchmarker benchmarker) {
         super("Sort-Benchmarker");
+        this.benchmarker = benchmarker;
         this.initFrame();
         this.setVisible(true);
     }
@@ -27,7 +33,7 @@ public class GUI extends JFrame {
     private void initPanel(JPanel panel) {
         panel.setLayout(new BorderLayout());
 
-        SortSelection sortSelection = new SortSelection();
+        SortSelection sortSelection = new SortSelection(benchmarker);
 
         // Set width for sort selection panel
         sortSelection.setPreferredSize(new Dimension(350, 0));
@@ -37,6 +43,18 @@ public class GUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new GUI();
+        Benchmarker benchmarker = new Benchmarker();
+
+        benchmarker.addSorterClass(QuickSort.class);
+        benchmarker.addSorterClass(QuickSortMT.class);
+
+        benchmarker.addSorterClass(MergeSort.class);
+//        benchmarker.addSorterClass(MergeSortMT.class);
+
+        benchmarker.addSorterClass(BubbleSort.class);
+
+        benchmarker.addSorterClass(InsertionSort.class);
+
+        new GUI(benchmarker);
     }
 }

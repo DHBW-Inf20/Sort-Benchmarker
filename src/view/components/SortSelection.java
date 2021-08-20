@@ -1,16 +1,25 @@
 package view.components;
 
+import logic.Benchmarker;
+import sort.Sorter;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SortSelection extends JPanel {
 
-    public SortSelection() {
-        setLayout(new BorderLayout());
+    private Benchmarker benchmarker;
 
+    private JPanel selectPanel;
+    private JPanel selectedPanel;
+
+    public SortSelection(Benchmarker benchmarker) {
+        this.benchmarker = benchmarker;
+        setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         init(panel);
         add(panel, BorderLayout.CENTER);
@@ -20,13 +29,12 @@ public class SortSelection extends JPanel {
 
         panel.setLayout(new GridBagLayout());
 
-        JPanel selectPanel = new JPanel();
-        initSelectPane(selectPanel);
+        selectPanel = new JPanel();
+        initSelectPane();
         JScrollPane selectPane = new JScrollPane(selectPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectPane.getVerticalScrollBar().setUnitIncrement(8);
 
-        JPanel selectedPanel = new JPanel();
-        initSelectedPane(selectedPanel);
+        selectedPanel = new JPanel();
         JScrollPane selectedPane = new JScrollPane(selectedPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectedPane.getVerticalScrollBar().setUnitIncrement(8);
 
@@ -68,37 +76,46 @@ public class SortSelection extends JPanel {
         c.weighty = weighty;
     }
 
-    private void initSelectPane(JPanel panel) {
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    private void initSelectPane() {
+        selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < 5; i++) {
-            panel.add(new AlgorithmComponent("Algorithmus " + i, true));
+        for (String alg : benchmarker.getAvailableSorter()) {
+            selectPanel.add(new AlgorithmComponent(alg, "+", e -> {
+                Sorter sorter = benchmarker.initOne(alg);
+                System.out.println(sorter.getDisplayName());
+                updateSelectedPanel();
+            }));
         }
     }
 
-    private void initSelectedPane(JPanel panel) {
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    private void updateSelectedPanel() {
+        selectedPanel.removeAll();
 
-        for (int i = 0; i < 3; i++) {
-            panel.add(new AlgorithmComponent("Algorithmus " + i, false));
+        selectedPanel.setLayout(new BoxLayout(selectedPanel, BoxLayout.Y_AXIS));
+
+        for (Sorter sorter : benchmarker.getSortPool()) {
+            selectedPanel.add(new AlgorithmComponent(sorter.getDisplayName(), "-", e -> {
+                benchmarker.removeSorter(sorter);
+                System.out.println(sorter.getDisplayName());
+                updateSelectedPanel();
+            }));
         }
+        revalidate();
     }
 
     private static class AlgorithmComponent extends JPanel {
-        public AlgorithmComponent(String name, boolean add_remove) {
+        public AlgorithmComponent(String name, String buttonText, ActionListener listener) {
             setLayout(new FlowLayout(FlowLayout.LEFT));
 
             Font font = new Font("Arial", Font.PLAIN, 20);
 
-            JButton btn = new JButton(add_remove ? "+" : "-");
+            JButton btn = new JButton(buttonText);
             btn.setOpaque(false);
             btn.setContentAreaFilled(false);
 //            btn.setBorderPainted(false);
             btn.setFont(font);
 
-            btn.addActionListener(e -> {
-                System.out.println(name);
-            });
+            btn.addActionListener(listener);
 
             JLabel label = new JLabel(name);
             label.setFont(font);
