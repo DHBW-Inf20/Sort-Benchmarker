@@ -34,10 +34,15 @@ public class GUI extends JFrame {
         panel.setLayout(new BorderLayout());
 
         SortSelection sortSelection = new SortSelection(benchmarker);
-
         // Set width for sort selection panel
         sortSelection.setPreferredSize(new Dimension(350, 0));
         panel.add(sortSelection, BorderLayout.WEST);
+
+        JButton btn = new JButton("Start");
+        btn.addActionListener(e -> {
+            benchmarker.testAlgorithms();
+        });
+        panel.add(btn, BorderLayout.CENTER);
 
         panel.setVisible(true);
     }

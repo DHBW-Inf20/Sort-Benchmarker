@@ -11,7 +11,7 @@ public class QuickSortMT extends Sorter {
 
     @Override
     public String getName() {
-        return "QuickSort (Multithreded)";
+        return "QuickSort (Multithreaded)";
     }
 
     @Override
@@ -19,6 +19,7 @@ public class QuickSortMT extends Sorter {
         int n = toSort.length;
 
         ForkJoinPool pool = ForkJoinPool.commonPool();
+//        ForkJoinPool pool = new ForkJoinPool(12);
 
         pool.invoke(new QuickSortMT.Sort(0, n - 1, toSort));
 

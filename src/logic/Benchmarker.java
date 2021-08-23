@@ -1,5 +1,6 @@
 package logic;
 
+import logic.benchmarks.DeviationBenchmark;
 import sort.Sorter;
 import sort.algorithms.QuickSort;
 import sort.algorithms.QuickSortMT;
@@ -84,7 +85,7 @@ public class Benchmarker {
             for (Sorter sorter : sortPool) {
                 int[] toSort = Arrays.copyOf(arr, arr.length);
                 int[] sorted = sorter.sort(toSort);
-                if (isSorted(sorted)) {
+                if (isSorted(sorted, toSort.length)) {
                     System.out.println(sorter.getName() + ": Test-" + (test+1) + " succeeded");
                     // TODO: sort succeeded
                 } else {
@@ -95,10 +96,20 @@ public class Benchmarker {
         }
     }
 
-    private boolean isSorted(int[] arr) {
+    private boolean isSorted(int[] arr, int length) {
+        if (arr.length != length) return false;
+        int direction = 0; // 1 = ASC; 2 = DESC
         for (int i = 0; i < arr.length - 1; i++) {
-            if (arr[i] > arr[i + 1]) {
-                return false;
+            if (arr[i] < arr[i + 1]) {
+                if (direction == 2) {
+                    return false;
+                }
+                direction = 1;
+            } else if (arr[i] > arr[i + 1]) {
+                if (direction == 1) {
+                    return false;
+                }
+                direction = 2;
             }
         }
         return true;
@@ -116,13 +127,11 @@ public class Benchmarker {
         }
     }
 
+    public HashMap<String, Object> benchmark(Benchmark benchmarkType) {
+        return benchmarkType.benchmark(sortPool);
+    }
+
     public static void main(String[] args) {
-
-        int[] arr = new int [100000000];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * 10000000);
-        }
-
         Benchmarker benchmarker = new Benchmarker();
 
         benchmarker.addSorterClass(QuickSort.class);
@@ -131,6 +140,19 @@ public class Benchmarker {
         benchmarker.initAll();
 
         benchmarker.testAlgorithms();
-        benchmarker.sort(arr);
+
+        System.out.println("\n\n\n");
+
+        Benchmark bm = new DeviationBenchmark();
+        bm.setArrayType(Benchmark.ArrayType.DESC);
+        HashMap<String, Object> result = benchmarker.benchmark(bm);
+        for (String sorter : result.keySet()) {
+            System.out.println(sorter + ": " + result.get(sorter));
+        }
+//        Benchmarker bench = new Benchmarker();
+//        System.out.println(bench.isSorted(new int[] {1, 2, 3, 3, 4}, 5));
+//        System.out.println(bench.isSorted(new int[] {5, 4, 4, 3 ,2}, 5));
+//        System.out.println(bench.isSorted(new int[] {5, 4, 5, 3 ,2}, 5));
+//        System.out.println(bench.isSorted(new int[] {1, 2, 3, 1, 4}, 5));
     }
 }
