@@ -4,27 +4,22 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class DataLoad {
+public interface DataLoad {
 
-    public void DataLoad () {
+    public static String[] Load () {
 
         String file = "src\\logic\\Outcomes.csv";
         BufferedReader reader = null;
         String line = "";
+        String[] data = null;
 
         try{
             reader = new BufferedReader(new FileReader(file));
-
+            int i = 0;
             while((line = reader.readLine()) != null){
-
-                String[] row = line.split(",");
-
-                for(String index : row){
-
-                    System.out.printf(index);
-                }
-
-                System.out.println();
+                data[i] = line;
+                i++;
+                System.out.println(data[i]);
             }
         }
         catch(Exception ex){
@@ -33,9 +28,11 @@ public class DataLoad {
         finally {
             try{
                 reader.close();
+                return data;
             }
             catch (IOException e){
                 e.printStackTrace();
+                return null;
             }
         }
     }

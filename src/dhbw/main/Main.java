@@ -1,11 +1,17 @@
 package dhbw.main;
 
+import logic.DataSave;
+
 public class Main
 {
     public static void main(String[] args) throws InterruptedException {
 
+        int x = 10;
+        int y = 5;
 
+        DataSave.Save(x,y);
 
+        /*
         int[] unsortedArrayList = {9,5,3,8,2,7,1};
 
         List<Integer> unsortedList = new ArrayList<>();
@@ -25,7 +31,7 @@ public class Main
         System.out.println("Quick Sort:");
         //List<Integer> sortedListWithQuickSort = quickSort.GetSortedList(unsortedList, 0);
         //System.out.println(sortedListWithQuickSort);
-
+         */
         Thread.sleep(10000);
 
 

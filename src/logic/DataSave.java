@@ -6,20 +6,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class DataSave {
+public interface DataSave {
 
-    public void DataSave (int[] x, int[] y, int numberOfInput, String givenPath, String saveName){
-        String path = System.getProperty(givenPath);
-        saveName = saveName + ".csv";
-        Path savedFile = Paths.get(path, saveName);
+    public static void Save (int numberOfInputs, int TimeDuration){
+
+        Path savedFile = Paths.get("src\\logic", "Outcomes.csv");
 
         try(BufferedWriter input = Files.newBufferedWriter(savedFile)){
-            String line;
+            String line = String.format(numberOfInputs + ";" + TimeDuration + "%n");
+            String[] availableData = DataLoad.Load();
+            int numberOfData = availableData.length;
 
-            for(int i = 0; i < numberOfInput; i++){
-                line = String.format(x[i] + ";" + y[i] + "%n");
-                input.write(line);
+            if (availableData != null){
+
+                for(int i = 0; i < numberOfData; i++){
+                    input.write(availableData[i]);
+                }
             }
+            input.write(line);
         }
         catch(IOException ex){
             System.out.printf(ex.getMessage());
