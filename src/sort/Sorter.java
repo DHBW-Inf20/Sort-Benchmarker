@@ -1,32 +1,32 @@
 package sort;
 
-import sort.options.OptionType;
-import sort.options.SortOption;
-import sort.options.SortOptions;
+import utils.options.OptionType;
+import utils.options.Option;
+import utils.options.Options;
 
 public abstract class Sorter {
 
-    private SortOptions sortOptions;
+    private final Options options;
 
     public Sorter() {
-        this.sortOptions = new SortOptions();
-        addOption(new SortOption("Name", OptionType.STRING, getName()));
+        this.options = new Options();
+        addOption(new Option("Name", OptionType.STRING, getName()));
     }
 
-    public void addOption(SortOption option) {
-        sortOptions.addOption(option);
+    public void addOption(Option option) {
+        options.addOption(option);
     }
 
     public Object getValue(String option) {
-        return sortOptions.getOption(option).getValue();
+        return options.getOption(option).getValue();
     }
 
     public void setValue(String option, Object value) {
-        sortOptions.setValue(option, value);
+        options.setValue(option, value);
     }
 
-    public SortOptions getSortOptions() {
-        return sortOptions;
+    public Options getSortOptions() {
+        return options;
     }
 
     public String getDisplayName() {
@@ -34,6 +34,8 @@ public abstract class Sorter {
     }
 
     public abstract String getName();
+
+    public void initSorting() {}
 
     public abstract int[] sort(int[] toSort);
 }

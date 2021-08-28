@@ -1,13 +1,21 @@
 package sort.algorithms;
 
 import sort.Sorter;
+import utils.options.OptionType;
+import utils.options.Option;
 
-import java.io.*;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
 public class QuickSortMT extends Sorter {
+
+    private ForkJoinPool pool;
+
+    public QuickSortMT() {
+        addOption(new Option("Threads", OptionType.NUMBER, 8));
+        addOption(new Option("commonPool", OptionType.BOOL, true));
+    }
 
     @Override
     public String getName() {
@@ -15,14 +23,17 @@ public class QuickSortMT extends Sorter {
     }
 
     @Override
+    public void initSorting() {
+        if ((boolean) getValue("commonPool")) {
+            pool = ForkJoinPool.commonPool();
+        } else {
+            pool = new ForkJoinPool((int) getValue("Threads"));
+        }
+    }
+
+    @Override
     public int[] sort(int[] toSort) {
-        int n = toSort.length;
-
-        ForkJoinPool pool = ForkJoinPool.commonPool();
-//        ForkJoinPool pool = new ForkJoinPool(12);
-
-        pool.invoke(new QuickSortMT.Sort(0, n - 1, toSort));
-
+        pool.invoke(new QuickSortMT.Sort(0, toSort.length - 1, toSort));
         return toSort;
     }
 

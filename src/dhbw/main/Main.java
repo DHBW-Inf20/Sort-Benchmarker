@@ -1,5 +1,12 @@
 package dhbw.main;
 
+import logic.Benchmarker;
+import sort.algorithms.BubbleSort;
+import sort.algorithms.MergeSort;
+import sort.algorithms.QuickSort;
+
+import java.util.Arrays;
+
 import logic.DataSave;
 
 public class Main
@@ -31,9 +38,17 @@ public class Main
         System.out.println("Quick Sort:");
         //List<Integer> sortedListWithQuickSort = quickSort.GetSortedList(unsortedList, 0);
         //System.out.println(sortedListWithQuickSort);
-         */
-        Thread.sleep(10000);
 
+        Thread.sleep(10000);*/
+
+        Benchmarker benchmarker = new Benchmarker();
+
+        benchmarker.addSorterClass(MergeSort.class);
+
+        benchmarker.initAll();
+        int[] unsortedArray = {9,5,3,8,2,7,1};
+        int[] sortedArray = benchmarker.getSortPool().get(0).sort(unsortedArray);
+        System.out.println(Arrays.toString(sortedArray));
 
     }
 }

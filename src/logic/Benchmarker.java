@@ -13,13 +13,31 @@ import java.util.List;
 
 public class Benchmarker {
 
-    private HashMap<String, Class<? extends Sorter>> sortClasses;
-    private List<Sorter> sortPool;
+    private final HashMap<String, Benchmark> benchmarks;
+
+    private final HashMap<String, Class<? extends Sorter>> sortClasses;
+    private final List<Sorter> sortPool;
 
     public Benchmarker() {
+        benchmarks = new HashMap<>();
         sortClasses = new HashMap<>();
         sortPool = new ArrayList<>();
     }
+
+
+    public void addBenchmark(Benchmark benchmark) {
+        String name = benchmark.getName();
+        benchmarks.put(name, benchmark);
+    }
+
+    public List<String> getAvailableBenchmarks() {
+        return new ArrayList<>(benchmarks.keySet());
+    }
+
+    public Benchmark getBenchmark(String benchmark) {
+        return benchmarks.get(benchmark);
+    }
+
 
     public List<String> getAvailableSorter() {
         return new ArrayList<>(sortClasses.keySet());
@@ -35,15 +53,27 @@ public class Benchmarker {
     }
 
     public Sorter initOne(String name) {
+        return initOne(name, true);
+    }
+
+    public Sorter initOne(String name, boolean addToSortPool) {
         Class<? extends Sorter> sorterClass = sortClasses.get(name);
         try {
             Sorter sorter = sorterClass.getDeclaredConstructor().newInstance();
-            sortPool.add(sorter);
+            if (addToSortPool) {
+                sortPool.add(sorter);
+                sorter.initSorting();
+            }
             return sorter;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void addToSortPool(Sorter sorter) {
+        this.sortPool.add(sorter);
+        sorter.initSorting();
     }
 
     public void removeSorter(Sorter sorter) {
@@ -86,10 +116,10 @@ public class Benchmarker {
                 int[] toSort = Arrays.copyOf(arr, arr.length);
                 int[] sorted = sorter.sort(toSort);
                 if (isSorted(sorted, toSort.length)) {
-                    System.out.println(sorter.getName() + ": Test-" + (test+1) + " succeeded");
+                    System.out.println(sorter.getDisplayName() + ": Test-" + (test+1) + " succeeded");
                     // TODO: sort succeeded
                 } else {
-                    System.out.println(sorter.getName() + ": Test-" + (test+1) + " not succeeded");
+                    System.out.println(sorter.getDisplayName() + ": Test-" + (test+1) + " not succeeded");
                     // TODO: sort not succeeded
                 }
             }
@@ -127,8 +157,15 @@ public class Benchmarker {
         }
     }
 
-    public HashMap<String, Object> benchmark(Benchmark benchmarkType) {
-        return benchmarkType.benchmark(sortPool);
+    public HashMap<Sorter, Object> benchmark(String benchmark) {
+        if (benchmarks.get(benchmark) != null) {
+            return this.benchmark(benchmarks.get(benchmark));
+        }
+        return null;
+    }
+
+    public HashMap<Sorter, Object> benchmark(Benchmark benchmark) {
+        return benchmark.benchmark(sortPool);
     }
 
     public static void main(String[] args) {
@@ -144,10 +181,10 @@ public class Benchmarker {
         System.out.println("\n\n\n");
 
         Benchmark bm = new DeviationBenchmark();
-        bm.setArrayType(Benchmark.ArrayType.DESC);
-        HashMap<String, Object> result = benchmarker.benchmark(bm);
-        for (String sorter : result.keySet()) {
-            System.out.println(sorter + ": " + result.get(sorter));
+        bm.setArrayType(Benchmark.ArrayType.RANDOM);
+        HashMap<Sorter, Object> result = benchmarker.benchmark(bm);
+        for (Sorter sorter : result.keySet()) {
+            System.out.println(sorter.getDisplayName() + ": " + result.get(sorter));
         }
 //        Benchmarker bench = new Benchmarker();
 //        System.out.println(bench.isSorted(new int[] {1, 2, 3, 3, 4}, 5));

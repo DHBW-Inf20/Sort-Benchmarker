@@ -2,20 +2,32 @@ package logic.benchmarks;
 
 import logic.Benchmark;
 import sort.Sorter;
+import utils.options.Option;
+import utils.options.OptionType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class DurationBenchmark extends Benchmark {
+public class RuntimeBenchmark extends Benchmark {
 
-    private int arraySize = 5;
-    private int iterations = 1;
+    public RuntimeBenchmark() {
+        addOption(new Option("Listengröße", OptionType.NUMBER, 5000000));
+        addOption(new Option("Iterationen", OptionType.NUMBER, 10));
+    }
 
     @Override
-    public HashMap<String, Object> benchmark(List<Sorter> sortPool) {
-        HashMap<String, Object> result = new HashMap<>();
+    public String getName() {
+        return "Laufzeit Benchmark";
+    }
+
+    @Override
+    public HashMap<Sorter, Object> benchmark(List<Sorter> sortPool) {
+        int arraySize = (int) getValue("Listengröße");
+        int iterations = (int) getValue("Iterationen");
+
+        HashMap<Sorter, Object> result = new HashMap<>();
         int[][] arr = new int[iterations][];
         for (int i = 0; i < iterations; i++) {
             arr[i] = new int[arraySize];
@@ -35,24 +47,8 @@ public class DurationBenchmark extends Benchmark {
             for (long l : tempResults) {
                 sum += l;
             }
-            result.put(sorter.getDisplayName(), sum / tempResults.size());
+            result.put(sorter, sum / tempResults.size());
         }
         return result;
-    }
-
-    public int getArraySize() {
-        return arraySize;
-    }
-
-    public void setArraySize(int arraySize) {
-        this.arraySize = arraySize;
-    }
-
-    public int getIterations() {
-        return iterations;
-    }
-
-    public void setIterations(int iterations) {
-        this.iterations = iterations;
     }
 }

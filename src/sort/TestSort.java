@@ -1,21 +1,16 @@
 package sort;
 
 import sort.algorithms.QuickSort;
-import sort.algorithms.QuickSortMT;
-import sort.options.OptionType;
-import sort.options.SortOption;
+import utils.options.OptionType;
+import utils.options.Option;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 public class TestSort extends Sorter {
 
     public TestSort() {
-        addOption(new SortOption("Test", OptionType.NUMBER, 10));
+        addOption(new Option("Test", OptionType.NUMBER, 10));
         System.out.println(getValue("Test"));
         setValue("Test", 20);
         System.out.println(getValue("Test"));

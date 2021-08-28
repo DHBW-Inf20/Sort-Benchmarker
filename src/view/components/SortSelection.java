@@ -4,39 +4,39 @@ import logic.Benchmarker;
 import sort.Sorter;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.InputEvent;
 
 public class SortSelection extends JPanel {
 
-    private Benchmarker benchmarker;
+    private final Benchmarker benchmarker;
 
     private JPanel selectPanel;
     private JPanel selectedPanel;
 
     public SortSelection(Benchmarker benchmarker) {
         this.benchmarker = benchmarker;
-        setLayout(new BorderLayout());
-        JPanel panel = new JPanel();
-        init(panel);
-        add(panel, BorderLayout.CENTER);
+        init();
     }
 
-    private void init(JPanel panel) {
+    private void init() {
 
-        panel.setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
 
         selectPanel = new JPanel();
         initSelectPane();
         JScrollPane selectPane = new JScrollPane(selectPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectPane.getVerticalScrollBar().setUnitIncrement(8);
 
+
         selectedPanel = new JPanel();
         JScrollPane selectedPane = new JScrollPane(selectedPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectedPane.getVerticalScrollBar().setUnitIncrement(8);
+
+        // Fix, dass beide Pane's gleich groß sind
+        selectPane.setPreferredSize(new Dimension(0, 10000));
+        selectedPane.setPreferredSize(new Dimension(0, 10000));
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -46,15 +46,15 @@ public class SortSelection extends JPanel {
         c.gridx = 0;
         c.gridy = 0;
 
-        addSpace(panel, 10, c);
-        addTitle(panel, "Algorithmen hinzufügen", c);
+        addSpace(this, 10, c);
+        addTitle(this, "Algorithmen hinzufügen", c);
         c.gridy++;
-        panel.add(selectPane, c);
+        add(selectPane, c);
 
-        addSpace(panel, 5, c);
-        addTitle(panel, "Hinzugefügte Algorithmen", c);
+        addSpace(this, 5, c);
+        addTitle(this, "Hinzugefügte Algorithmen", c);
         c.gridy++;
-        panel.add(selectedPane, c);
+        add(selectedPane, c);
     }
 
     private void addSpace(JPanel panel, int height, GridBagConstraints c) {
@@ -81,9 +81,16 @@ public class SortSelection extends JPanel {
 
         for (String alg : benchmarker.getAvailableSorter()) {
             selectPanel.add(new AlgorithmComponent(alg, "+", e -> {
-                Sorter sorter = benchmarker.initOne(alg);
-                System.out.println(sorter.getDisplayName());
-                updateSelectedPanel();
+                Sorter sorter = benchmarker.initOne(alg, false);
+                if ((e.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
+                    benchmarker.addToSortPool(sorter);
+                    updateSelectedPanel();
+                } else {
+                    new SortOptionsDialog(sorter, () -> {
+                        benchmarker.addToSortPool(sorter);
+                        updateSelectedPanel();
+                    }, this);
+                }
             }));
         }
     }
@@ -94,16 +101,19 @@ public class SortSelection extends JPanel {
         selectedPanel.setLayout(new BoxLayout(selectedPanel, BoxLayout.Y_AXIS));
 
         for (Sorter sorter : benchmarker.getSortPool()) {
+            System.out.println("SORTER: " + sorter.getDisplayName());
             selectedPanel.add(new AlgorithmComponent(sorter.getDisplayName(), "-", e -> {
                 benchmarker.removeSorter(sorter);
                 System.out.println(sorter.getDisplayName());
                 updateSelectedPanel();
             }));
         }
+
         revalidate();
+        repaint();
     }
 
-    private static class AlgorithmComponent extends JPanel {
+    private static class AlgorithmComponent extends JComponent {
         public AlgorithmComponent(String name, String buttonText, ActionListener listener) {
             setLayout(new FlowLayout(FlowLayout.LEFT));
 

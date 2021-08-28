@@ -1,15 +1,36 @@
 package logic;
 
 import sort.Sorter;
+import utils.options.Option;
+import utils.options.Options;
 
 import java.util.HashMap;
 import java.util.List;
 
 public abstract class Benchmark {
+
+    private final Options options;
     private ArrayType arrayType;
 
     public Benchmark() {
+        options = new Options();
         arrayType = ArrayType.RANDOM;
+    }
+
+    public void addOption(Option option) {
+        options.addOption(option);
+    }
+
+    public Object getValue(String option) {
+        return options.getOption(option).getValue();
+    }
+
+    public void setValue(String option, Object value) {
+        options.setValue(option, value);
+    }
+
+    public Options getSortOptions() {
+        return options;
     }
 
     public void getArray(int[] arr) {
@@ -40,7 +61,9 @@ public abstract class Benchmark {
         this.arrayType = arrayType;
     }
 
-    public abstract HashMap<String, Object> benchmark(List<Sorter> sortPool);
+    public abstract String getName();
+
+    public abstract HashMap<Sorter, Object> benchmark(List<Sorter> sortPool);
 
     public enum ArrayType {
         RANDOM, ASC, DESC;

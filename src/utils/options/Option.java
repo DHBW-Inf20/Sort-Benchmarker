@@ -1,6 +1,6 @@
-package sort.options;
+package utils.options;
 
-public class SortOption {
+public class Option {
 
     private String option;
     private OptionType optionType;
@@ -8,7 +8,7 @@ public class SortOption {
 
     private Object value;
 
-    public SortOption(String option, OptionType optionType, Object defaultValue) {
+    public Option(String option, OptionType optionType, Object defaultValue) {
         this.option = option;
         this.optionType = optionType;
         this.defaultValue = defaultValue;
