@@ -25,7 +25,7 @@ public abstract class Sorter {
         options.setValue(option, value);
     }
 
-    public Options getSortOptions() {
+    public Options getOptions() {
         return options;
     }
 

@@ -2,11 +2,14 @@ package view.components;
 
 import logic.Benchmarker;
 import sort.Sorter;
+import utils.Settings;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.geom.RoundRectangle2D;
 
 public class SortSelection extends JPanel {
 
@@ -48,11 +51,13 @@ public class SortSelection extends JPanel {
 
         addSpace(this, 10, c);
         addTitle(this, "Algorithmen hinzufügen", c);
+        addSpace(this, 10, c);
         c.gridy++;
         add(selectPane, c);
 
-        addSpace(this, 5, c);
+        addSpace(this, 10, c);
         addTitle(this, "Hinzugefügte Algorithmen", c);
+        addSpace(this, 10, c);
         c.gridy++;
         add(selectedPane, c);
     }
@@ -65,15 +70,17 @@ public class SortSelection extends JPanel {
         c.weighty = weighty;
     }
     private void addTitle(JPanel panel, String title, GridBagConstraints c) {
-        Font font = new Font("Arial", Font.BOLD, 20);
         JLabel titleLabel = new JLabel(" " + title);
-        titleLabel.setFont(font);
+        titleLabel.setFont(Settings.fontBold);
 
+        int fill = c.fill;
         double weighty = c.weighty;
+        c.fill = GridBagConstraints.CENTER;
         c.gridy++;
         c.weighty = 0;
         panel.add(titleLabel, c);
         c.weighty = weighty;
+        c.fill = fill;
     }
 
     private void initSelectPane() {
@@ -86,10 +93,10 @@ public class SortSelection extends JPanel {
                     benchmarker.addToSortPool(sorter);
                     updateSelectedPanel();
                 } else {
-                    new SortOptionsDialog(sorter, () -> {
+                    new OptionsDialog(sorter.getName() + " hinzufügen", "Hinzufügen", sorter.getOptions(), () -> {
                         benchmarker.addToSortPool(sorter);
                         updateSelectedPanel();
-                    }, this);
+                    });
                 }
             }));
         }
@@ -113,22 +120,20 @@ public class SortSelection extends JPanel {
         repaint();
     }
 
-    private static class AlgorithmComponent extends JComponent {
+    private static class AlgorithmComponent extends JPanel {
         public AlgorithmComponent(String name, String buttonText, ActionListener listener) {
             setLayout(new FlowLayout(FlowLayout.LEFT));
-
-            Font font = new Font("Arial", Font.PLAIN, 20);
 
             JButton btn = new JButton(buttonText);
             btn.setOpaque(false);
             btn.setContentAreaFilled(false);
 //            btn.setBorderPainted(false);
-            btn.setFont(font);
+            btn.setFont(Settings.font);
 
             btn.addActionListener(listener);
 
             JLabel label = new JLabel(name);
-            label.setFont(font);
+            label.setFont(Settings.font);
 
             add(btn);
             add(label);

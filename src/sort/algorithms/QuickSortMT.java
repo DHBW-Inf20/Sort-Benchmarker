@@ -14,7 +14,7 @@ public class QuickSortMT extends Sorter {
 
     public QuickSortMT() {
         addOption(new Option("Threads", OptionType.NUMBER, 8));
-        addOption(new Option("commonPool", OptionType.BOOL, true));
+        addOption(new Option("commonPool", OptionType.BOOL, false));
     }
 
     @Override

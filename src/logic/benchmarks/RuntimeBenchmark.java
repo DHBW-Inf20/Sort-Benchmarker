@@ -13,7 +13,7 @@ import java.util.List;
 public class RuntimeBenchmark extends Benchmark {
 
     public RuntimeBenchmark() {
-        addOption(new Option("Listengröße", OptionType.NUMBER, 5000000));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 5000000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 10));
     }
 
@@ -24,7 +24,7 @@ public class RuntimeBenchmark extends Benchmark {
 
     @Override
     public HashMap<Sorter, Object> benchmark(List<Sorter> sortPool) {
-        int arraySize = (int) getValue("Listengröße");
+        int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
         HashMap<Sorter, Object> result = new HashMap<>();

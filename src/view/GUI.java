@@ -4,6 +4,7 @@ import logic.Benchmarker;
 import logic.benchmarks.DeviationBenchmark;
 import logic.benchmarks.RuntimeBenchmark;
 import sort.algorithms.*;
+import view.components.ResultPanel;
 import view.components.SortHeader;
 import view.components.SortSelection;
 
@@ -23,6 +24,7 @@ public class GUI extends JFrame {
 
     private void initFrame() {
         this.setSize(1400, 800);
+        this.setMinimumSize(new Dimension(1250, 400));
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -37,26 +39,18 @@ public class GUI extends JFrame {
         SortSelection sortSelection = new SortSelection(benchmarker);
         // Set width for sort selection panel
         sortSelection.setPreferredSize(new Dimension(350, 0));
+
+        SortHeader sortHeader = new SortHeader(benchmarker);
+
+        ResultPanel resultPanel = new ResultPanel();
+        resultPanel.setBackground(Color.LIGHT_GRAY);
+
         panel.add(sortSelection, BorderLayout.WEST);
-
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BorderLayout());
-        JPanel sortHeader = new SortHeader(benchmarker);
-        centerPanel.add(sortHeader, BorderLayout.NORTH);
-        panel.add(centerPanel, BorderLayout.CENTER);
-
-//        JButton btn = new JButton("Start");
-//        btn.addActionListener(e -> {
-//            new Thread(() -> {
-//                benchmarker.testAlgorithms();
-//                Benchmark bm = new DurationBenchmark();
-//                HashMap<Sorter, Object> result = benchmarker.benchmark(bm);
-//                for (Sorter sorter : result.keySet()) {
-//                    System.out.println(sorter.getDisplayName() + ": " + result.get(sorter));
-//                }
-//            }).start();
-//        });
-//        panel.add(btn, BorderLayout.CENTER);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(sortHeader, BorderLayout.NORTH);
+        mainPanel.add(resultPanel, BorderLayout.CENTER);
+        panel.add(mainPanel, BorderLayout.CENTER);
 
         panel.setVisible(true);
     }

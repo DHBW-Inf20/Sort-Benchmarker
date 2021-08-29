@@ -1,6 +1,7 @@
 package logic;
 
 import logic.benchmarks.DeviationBenchmark;
+import logic.benchmarks.RuntimeBenchmark;
 import sort.Sorter;
 import sort.algorithms.QuickSort;
 import sort.algorithms.QuickSortMT;
@@ -85,7 +86,7 @@ public class Benchmarker {
             Class<? extends Sorter> sorterClass = sortClasses.get(name);
             try {
                 Sorter sorter = sorterClass.getDeclaredConstructor().newInstance();
-                sortPool.add(sorter);
+                addToSortPool(sorter);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -180,7 +181,7 @@ public class Benchmarker {
 
         System.out.println("\n\n\n");
 
-        Benchmark bm = new DeviationBenchmark();
+        Benchmark bm = new RuntimeBenchmark();
         bm.setArrayType(Benchmark.ArrayType.RANDOM);
         HashMap<Sorter, Object> result = benchmarker.benchmark(bm);
         for (Sorter sorter : result.keySet()) {

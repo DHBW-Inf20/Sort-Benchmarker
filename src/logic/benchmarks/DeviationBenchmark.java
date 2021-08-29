@@ -10,7 +10,7 @@ import java.util.*;
 public class DeviationBenchmark extends Benchmark {
 
     public DeviationBenchmark() {
-        addOption(new Option("Listengröße", OptionType.NUMBER, 1000000));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 100));
     }
 
@@ -21,7 +21,7 @@ public class DeviationBenchmark extends Benchmark {
 
     @Override
     public HashMap<Sorter, Object> benchmark(List<Sorter> sortPool) {
-        int arraySize = (int) getValue("Listengröße");
+        int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
         HashMap<Sorter, Object> result = new HashMap<>();

@@ -29,7 +29,7 @@ public abstract class Benchmark {
         options.setValue(option, value);
     }
 
-    public Options getSortOptions() {
+    public Options getOptions() {
         return options;
     }
 

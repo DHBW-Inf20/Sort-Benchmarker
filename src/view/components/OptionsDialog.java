@@ -3,26 +3,28 @@ package view.components;
 import utils.layout.SpringUtilities;
 import sort.Sorter;
 import utils.options.Option;
+import utils.options.Options;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class SortOptionsDialog extends JFrame {
+public class OptionsDialog extends JFrame {
 
-    public SortOptionsDialog(Sorter sorter, Runnable addRunnable, JComponent owner) {
-        setLocationRelativeTo(owner);
-        setTitle(sorter.getName() + " hinzufügen");
+    public OptionsDialog(String title, String buttonText, Options options, Runnable addRunnable) {
+        setLocation(MouseInfo.getPointerInfo().getLocation());
+        setTitle(title);
         setAlwaysOnTop(true);
         setResizable(false);
         setAlwaysOnTop(true);
 
-        List<Option> options = sorter.getSortOptions().getOptionList();
+        List<Option> optionList = options.getOptionList();
 
-        init(options, addRunnable);
+        init(optionList, addRunnable, buttonText);
     }
 
-    private void init(List<Option> options, Runnable addRunnable) {
+    private void init(List<Option> options, Runnable addRunnable, String buttonText) {
         JPanel p = new JPanel(new SpringLayout());
 
         int dynamicHeight = 40;
@@ -60,7 +62,7 @@ public class SortOptionsDialog extends JFrame {
 
         p.add(new JLabel(""));
 
-        JButton addBtn = new JButton("Hinzufügen");
+        JButton addBtn = new JButton(buttonText);
         addBtn.addActionListener(e -> {
             for (Option option : options) {
                 switch (option.getOptionType()) {
@@ -90,8 +92,9 @@ public class SortOptionsDialog extends JFrame {
 
         add(p);
 
+        // Bevor getInsets() valide Werte liefert muss erst visisble auf true gesetzt werden
         setVisible(true);
         dynamicHeight += getInsets().top + getInsets().bottom;
-        setSize(500, dynamicHeight);
+        setSize(400, dynamicHeight);
     }
 }
