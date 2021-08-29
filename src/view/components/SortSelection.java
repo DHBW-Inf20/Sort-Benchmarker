@@ -34,6 +34,7 @@ public class SortSelection extends JPanel {
 
 
         selectedPanel = new JPanel();
+        initSelectedPanel();
         JScrollPane selectedPane = new JScrollPane(selectedPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectedPane.getVerticalScrollBar().setUnitIncrement(8);
 
@@ -55,7 +56,7 @@ public class SortSelection extends JPanel {
         c.gridy++;
         add(selectPane, c);
 
-        addSpace(this, 10, c);
+        addSpace(this, 30, c);
         addTitle(this, "Hinzugefügte Algorithmen", c);
         addSpace(this, 10, c);
         c.gridy++;
@@ -66,11 +67,11 @@ public class SortSelection extends JPanel {
         double weighty = c.weighty;
         c.gridy++;
         c.weighty = 0;
-        panel.add(Box.createRigidArea(new Dimension(0, height)) , c);
+        panel.add(Box.createVerticalStrut(height) , c);
         c.weighty = weighty;
     }
     private void addTitle(JPanel panel, String title, GridBagConstraints c) {
-        JLabel titleLabel = new JLabel(" " + title);
+        JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(Settings.fontBold);
 
         int fill = c.fill;
@@ -87,7 +88,8 @@ public class SortSelection extends JPanel {
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
 
         for (String alg : benchmarker.getAvailableSorter()) {
-            selectPanel.add(new AlgorithmComponent(alg, "+", e -> {
+
+            AlgorithmComponent algComponent = new AlgorithmComponent(alg, "+", e -> {
                 Sorter sorter = benchmarker.initOne(alg, false);
                 if ((e.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
                     benchmarker.addToSortPool(sorter);
@@ -98,33 +100,66 @@ public class SortSelection extends JPanel {
                         updateSelectedPanel();
                     });
                 }
-            }));
+            });
+
+            selectPanel.add(algComponent);
         }
+    }
+
+    private void initSelectedPanel() {
+        selectedPanel.setLayout(new BoxLayout(selectedPanel, BoxLayout.Y_AXIS));
     }
 
     private void updateSelectedPanel() {
         selectedPanel.removeAll();
 
-        selectedPanel.setLayout(new BoxLayout(selectedPanel, BoxLayout.Y_AXIS));
-
         for (Sorter sorter : benchmarker.getSortPool()) {
-            System.out.println("SORTER: " + sorter.getDisplayName());
-            selectedPanel.add(new AlgorithmComponent(sorter.getDisplayName(), "-", e -> {
+            AlgorithmComponent algComponent = new AlgorithmComponent(sorter.getDisplayName(), "-", e -> {
                 benchmarker.removeSorter(sorter);
-                System.out.println(sorter.getDisplayName());
                 updateSelectedPanel();
-            }));
+            });
+
+            selectedPanel.add(algComponent);
         }
 
         revalidate();
         repaint();
     }
 
+    public void enableButtons() {
+        for (Component component : selectPanel.getComponents()) {
+            if (component instanceof  AlgorithmComponent) {
+                ((AlgorithmComponent) component).enableButton();
+            }
+        }
+        for (Component component : selectedPanel.getComponents()) {
+            if (component instanceof  AlgorithmComponent) {
+                ((AlgorithmComponent) component).enableButton();
+            }
+        }
+    }
+
+    public void disableButtons() {
+        for (Component component : selectPanel.getComponents()) {
+            if (component instanceof  AlgorithmComponent) {
+                ((AlgorithmComponent) component).disableButton();
+            }
+        }
+        for (Component component : selectedPanel.getComponents()) {
+            if (component instanceof AlgorithmComponent) {
+                ((AlgorithmComponent) component).disableButton();
+            }
+        }
+    }
+
     private static class AlgorithmComponent extends JPanel {
+
+        private final JButton btn;
+
         public AlgorithmComponent(String name, String buttonText, ActionListener listener) {
             setLayout(new FlowLayout(FlowLayout.LEFT));
 
-            JButton btn = new JButton(buttonText);
+            btn = new JButton(buttonText);
             btn.setOpaque(false);
             btn.setContentAreaFilled(false);
 //            btn.setBorderPainted(false);
@@ -138,7 +173,15 @@ public class SortSelection extends JPanel {
             add(btn);
             add(label);
 
-            setMaximumSize(new Dimension(10000, (int) getPreferredSize().getHeight()));
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) getPreferredSize().getHeight()));
+        }
+
+        public void enableButton() {
+            btn.setEnabled(true);
+        }
+
+        public void disableButton() {
+            btn.setEnabled(false);
         }
     }
 }

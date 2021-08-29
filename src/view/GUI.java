@@ -10,6 +10,7 @@ import view.components.SortSelection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class GUI extends JFrame {
 
@@ -40,10 +41,9 @@ public class GUI extends JFrame {
         // Set width for sort selection panel
         sortSelection.setPreferredSize(new Dimension(350, 0));
 
-        SortHeader sortHeader = new SortHeader(benchmarker);
+        ResultPanel resultPanel = new ResultPanel(benchmarker);
 
-        ResultPanel resultPanel = new ResultPanel();
-        resultPanel.setBackground(Color.LIGHT_GRAY);
+        SortHeader sortHeader = new SortHeader(benchmarker, resultPanel, sortSelection);
 
         panel.add(sortSelection, BorderLayout.WEST);
         JPanel mainPanel = new JPanel();
@@ -61,10 +61,11 @@ public class GUI extends JFrame {
         benchmarker.addSorterClass(QuickSort.class);
         benchmarker.addSorterClass(QuickSortMT.class);
         benchmarker.addSorterClass(MergeSort.class);
-//        benchmarker.addSorterClass(MergeSortMT.class);
+        benchmarker.addSorterClass(MergeSortMT.class);
 
         benchmarker.addSorterClass(BubbleSort.class);
         benchmarker.addSorterClass(InsertionSort.class);
+        benchmarker.addSorterClass(SelectionSort.class);
 
         benchmarker.addBenchmark(new RuntimeBenchmark());
         benchmarker.addBenchmark(new DeviationBenchmark());

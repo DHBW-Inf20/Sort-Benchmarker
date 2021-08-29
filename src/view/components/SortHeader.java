@@ -7,15 +7,20 @@ import utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
 public class SortHeader extends JPanel {
 
     private final Benchmarker benchmarker;
+    private final ResultPanel resultPanel;
+    private final SortSelection sortSelection;
 
-    public SortHeader(Benchmarker benchmarker) {
+    public SortHeader(Benchmarker benchmarker, ResultPanel resultPanel, SortSelection sortSelection) {
         this.benchmarker = benchmarker;
+        this.resultPanel = resultPanel;
+        this.sortSelection = sortSelection;
 
         setLayout(new BorderLayout());
         init();
@@ -50,22 +55,24 @@ public class SortHeader extends JPanel {
         JButton start = new JButton("Start Benchmark");
         start.setFont(Settings.fontBold);
         start.addActionListener(e -> {
-            new Thread(() -> {
-                benchmarker.testAlgorithms();
-                Benchmark bm = benchmarker.getBenchmark((String) benchmarks.getSelectedItem());
-                Benchmark.ArrayType at = (Benchmark.ArrayType) arrayType.getSelectedItem();
-                bm.setArrayType(at);
-                HashMap<Sorter, Object> result = benchmarker.benchmark(bm);
-                for (Sorter sorter : result.keySet()) {
-                    System.out.println(sorter.getDisplayName() + ": " + result.get(sorter));
-                }
-            }).start();
+            start.setEnabled(false);
+            benchmarks.setEnabled(false);
+            options.setEnabled(false);
+            arrayType.setEnabled(false);
+            sortSelection.disableButtons();
+            startBenchmark((String) benchmarks.getSelectedItem(), (Benchmark.ArrayType) arrayType.getSelectedItem(), () -> {
+                start.setEnabled(true);
+                benchmarks.setEnabled(true);
+                options.setEnabled(true);
+                arrayType.setEnabled(true);
+                sortSelection.enableButtons();
+            });
         });
 
         west.add(benchmarkLabel);
         west.add(benchmarks);
         west.add(options);
-        west.add(Box.createRigidArea(new Dimension(10, 0)));
+        west.add(Box.createHorizontalStrut(10));
         west.add(arrayTypeLabel);
         west.add(arrayType);
 
@@ -74,5 +81,27 @@ public class SortHeader extends JPanel {
 
         add(east, BorderLayout.EAST);
         add(west, BorderLayout.WEST);
+    }
+
+    private void startBenchmark(String benchmark, Benchmark.ArrayType arrayType, Runnable finish) {
+        HashMap<Sorter, Integer> testResult = benchmarker.testAlgorithms();
+        resultPanel.setTestResult(testResult);
+
+        Benchmark bm = benchmarker.getBenchmark(benchmark);
+        resultPanel.initPanels(bm);
+
+        bm.setArrayType(arrayType);
+
+        new Thread(() -> {
+            benchmarker.benchmark(bm);
+            finish.run();
+        }).start();
+
+//        Benchmark bm = benchmarker.getBenchmark(benchmark);
+//        bm.setArrayType(arrayType);
+//        HashMap<Sorter, Object> benchmarkResult = benchmarker.benchmark(bm);
+//        for (Sorter sorter : benchmarkResult.keySet()) {
+//            System.out.println(sorter.getDisplayName() + ": " + benchmarkResult.get(sorter));
+//        }
     }
 }

@@ -2,18 +2,17 @@ package logic.benchmarks;
 
 import logic.Benchmark;
 import sort.Sorter;
+import utils.Settings;
 import utils.options.Option;
 import utils.options.OptionType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import javax.swing.*;
+import java.util.*;
 
 public class RuntimeBenchmark extends Benchmark {
 
     public RuntimeBenchmark() {
-        addOption(new Option("Array-Größe", OptionType.NUMBER, 5000000));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 10));
     }
 
@@ -23,32 +22,72 @@ public class RuntimeBenchmark extends Benchmark {
     }
 
     @Override
-    public HashMap<Sorter, Object> benchmark(List<Sorter> sortPool) {
+    public void benchmark(List<Sorter> sortPool) {
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
-        HashMap<Sorter, Object> result = new HashMap<>();
-        int[][] arr = new int[iterations][];
+        //TODO: use seed
+//        int[][] arr = new int[iterations][];
+//        for (int i = 0; i < iterations; i++) {
+//            arr[i] = new int[arraySize];
+//            getArray(arr[i]);
+//        }
+        Random random = new Random();
+        long[] seeds = new long[iterations];
         for (int i = 0; i < iterations; i++) {
-            arr[i] = new int[arraySize];
-            getArray(arr[i]);
+            seeds[i] = random.nextLong();
         }
+
         ArrayList<Long> tempResults = new ArrayList<>();
         for (Sorter sorter : sortPool) {
             tempResults.clear();
             for (int i = 0; i < iterations; i++) {
-                int[] toSort = Arrays.copyOf(arr[i], arr[i].length);
+                int[] arr = new int[arraySize];
+                getArray(arr, seeds[i]);
                 long start = System.currentTimeMillis();
-                sorter.sort(toSort);
+                sorter.sort(arr);
                 long stop = System.currentTimeMillis();
                 tempResults.add(stop - start);
             }
+            long min = Long.MAX_VALUE;
+            long max = Long.MIN_VALUE;
             long sum = 0;
             for (long l : tempResults) {
                 sum += l;
+                if (l > max) max = l;
+                if (l < min) min = l;
             }
-            result.put(sorter, sum / tempResults.size());
+
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("mean", sum / (double) tempResults.size());
+            result.put("max", max);
+            result.put("min", min);
+
+            updateResult(sorter, result);
         }
-        return result;
+    }
+
+    @Override
+    protected void updateResult(JPanel panel, Object data) {
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        HashMap<String, Object> result = (HashMap<String, Object>) data;
+
+        double mean = (Double) result.get("mean");
+        long min = (Long) result.get("min");
+        long max = (Long) result.get("max");
+
+        JLabel meanDuration = new JLabel("Durchschnittliche Laufzeit: " + Math.round(mean * 100) / 100);
+        meanDuration.setFont(Settings.font);
+
+        JLabel minDuration = new JLabel("Minimale Laufzeit: " + min);
+        minDuration.setFont(Settings.font);
+
+        JLabel maxDuration = new JLabel("Maximale Laufzeit: " + max);
+        maxDuration.setFont(Settings.font);
+
+        panel.add(meanDuration);
+        panel.add(minDuration);
+        panel.add(maxDuration);
     }
 }

@@ -1,20 +1,39 @@
 package logic;
 
 import sort.Sorter;
+import utils.Settings;
 import utils.options.Option;
 import utils.options.Options;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public abstract class Benchmark {
 
     private final Options options;
     private ArrayType arrayType;
 
+    private HashMap<Sorter, JPanel> panels;
+
     public Benchmark() {
         options = new Options();
         arrayType = ArrayType.RANDOM;
+    }
+
+    public void initPanels(HashMap<Sorter, JPanel> panels) {
+        this.panels = panels;
+    }
+
+    protected void updateResult(Sorter sorter, Object data) {
+        if (panels != null && panels.get(sorter) != null) {
+            JPanel panel = panels.get(sorter);
+            panel.removeAll();
+            updateResult(panel, data);
+            revalidatePanel(panel);
+        }
     }
 
     public void addOption(Option option) {
@@ -34,10 +53,20 @@ public abstract class Benchmark {
     }
 
     public void getArray(int[] arr) {
+        getArray(arr, 0);
+    }
+
+    public void getArray(int[] arr, long seed) {
+        Random random;
+        if (seed != 0) {
+            random = new Random(seed);
+        } else {
+            random = new Random();
+        }
         switch (arrayType) {
             case RANDOM:
                 for (int i = 0; i < arr.length; i++) {
-                    arr[i] = (int) (Math.random() * arr.length);
+                    arr[i] = random.nextInt();
                 }
                 break;
             case ASC:
@@ -63,7 +92,31 @@ public abstract class Benchmark {
 
     public abstract String getName();
 
-    public abstract HashMap<Sorter, Object> benchmark(List<Sorter> sortPool);
+    public void beforeBenchmark() {
+        if (panels != null) {
+            for (JPanel panel : panels.values()) {
+                panel.setLayout(new BorderLayout());
+                JLabel runningLabel = new JLabel("Benchmark läuft...");
+                runningLabel.setFont(Settings.font);
+                panel.removeAll();
+                panel.add(runningLabel);
+                revalidatePanel(panel);
+            }
+        }
+    }
+
+    private void revalidatePanel(JPanel panel) {
+        if (panel.getParent() != null && panel.getParent().getParent() != null) {
+            JComponent parent = (JComponent) panel.getParent().getParent();
+            parent.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) parent.getPreferredSize().getHeight()));
+            parent.revalidate();
+            parent.repaint();
+        }
+    }
+
+    public abstract void benchmark(List<Sorter> sortPool);
+
+    protected abstract void updateResult(JPanel panel, Object data);
 
     public enum ArrayType {
         RANDOM, ASC, DESC;

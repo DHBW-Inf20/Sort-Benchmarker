@@ -2,16 +2,18 @@ package logic.benchmarks;
 
 import logic.Benchmark;
 import sort.Sorter;
+import utils.Settings;
 import utils.options.Option;
 import utils.options.OptionType;
 
+import javax.swing.*;
 import java.util.*;
 
 public class DeviationBenchmark extends Benchmark {
 
     public DeviationBenchmark() {
-        addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
-        addOption(new Option("Iterationen", OptionType.NUMBER, 100));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 500000));
+        addOption(new Option("Iterationen", OptionType.NUMBER, 50));
     }
 
     @Override
@@ -20,11 +22,10 @@ public class DeviationBenchmark extends Benchmark {
     }
 
     @Override
-    public HashMap<Sorter, Object> benchmark(List<Sorter> sortPool) {
+    public void benchmark(List<Sorter> sortPool) {
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
-        HashMap<Sorter, Object> result = new HashMap<>();
         int[] arr = new int[arraySize];
         getArray(arr);
         ArrayList<Long> tempResults = new ArrayList<>();
@@ -49,9 +50,31 @@ public class DeviationBenchmark extends Benchmark {
             long range = max - min;
             double standardDeviation = calculateSD(tempResults);
 
-            result.put(sorter, standardDeviation);
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("range", range);
+            result.put("standardDeviation", standardDeviation);
+
+            updateResult(sorter, result);
         }
-        return result;
+    }
+
+    @Override
+    protected void updateResult(JPanel panel, Object data) {
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        HashMap<String, Object> result = (HashMap<String, Object>) data;
+
+        long range = (Long) result.get("range");
+        double standardDeviation = (Double) result.get("standardDeviation");
+
+        JLabel rangeLabel = new JLabel("Spannweite: " + range);
+        rangeLabel.setFont(Settings.font);
+
+        JLabel deviationLabel = new JLabel("Standardabweichung: " + Math.round(standardDeviation * 100) / 100d);
+        deviationLabel.setFont(Settings.font);
+
+        panel.add(rangeLabel);
+        panel.add(deviationLabel);
     }
 
     // Standard Deviation / Standardabweichung

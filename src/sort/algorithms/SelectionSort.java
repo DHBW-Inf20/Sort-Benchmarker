@@ -29,7 +29,7 @@ public class SelectionSort extends Sorter {
 
     @Override
     public int[] sort(int[] toSort) {
-        unsortedArray = toSort;
-        return new int[0];
+//        unsortedArray = toSort;
+        return toSort;
     }
 }
