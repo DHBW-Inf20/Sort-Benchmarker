@@ -54,22 +54,4 @@ public class GUI extends JFrame {
 
         panel.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        Benchmarker benchmarker = new Benchmarker();
-
-        benchmarker.addSorterClass(QuickSort.class);
-        benchmarker.addSorterClass(QuickSortMT.class);
-        benchmarker.addSorterClass(MergeSort.class);
-        benchmarker.addSorterClass(MergeSortMT.class);
-
-        benchmarker.addSorterClass(BubbleSort.class);
-        benchmarker.addSorterClass(InsertionSort.class);
-        benchmarker.addSorterClass(SelectionSort.class);
-
-        benchmarker.addBenchmark(new RuntimeBenchmark());
-        benchmarker.addBenchmark(new DeviationBenchmark());
-
-        new GUI(benchmarker);
-    }
 }

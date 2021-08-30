@@ -76,8 +76,12 @@ public class Benchmarker {
     }
 
     public void addToSortPool(Sorter sorter) {
-        this.sortPool.add(sorter);
-        sorter.initSorting();
+        try {
+            sorter.initSorting();
+            this.sortPool.add(sorter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeSorter(Sorter sorter) {
