@@ -7,14 +7,24 @@ import utils.options.Options;
 public abstract class Sorter {
 
     private final Options options;
+    private boolean testsPassed;
 
     public Sorter() {
         this.options = new Options();
+        testsPassed = false;
         addOption(new Option("Name", OptionType.STRING, getName()));
     }
 
     public void addOption(Option option) {
         options.addOption(option);
+    }
+
+    public void setTestsPassed(boolean testsPassed) {
+        this.testsPassed = testsPassed;
+    }
+
+    public boolean passedTests() {
+        return testsPassed;
     }
 
     public Object getValue(String option) {

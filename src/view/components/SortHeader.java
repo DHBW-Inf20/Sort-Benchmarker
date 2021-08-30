@@ -96,12 +96,5 @@ public class SortHeader extends JPanel {
             benchmarker.benchmark(bm);
             finish.run();
         }).start();
-
-//        Benchmark bm = benchmarker.getBenchmark(benchmark);
-//        bm.setArrayType(arrayType);
-//        HashMap<Sorter, Object> benchmarkResult = benchmarker.benchmark(bm);
-//        for (Sorter sorter : benchmarkResult.keySet()) {
-//            System.out.println(sorter.getDisplayName() + ": " + benchmarkResult.get(sorter));
-//        }
     }
 }

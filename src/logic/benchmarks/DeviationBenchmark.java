@@ -30,6 +30,7 @@ public class DeviationBenchmark extends Benchmark {
         getArray(arr);
         ArrayList<Long> tempResults = new ArrayList<>();
         for (Sorter sorter : sortPool) {
+            if (!sorter.passedTests()) continue;
             tempResults.clear();
             for (int i = 0; i < iterations; i++) {
                 int[] toSort = Arrays.copyOf(arr, arr.length);
@@ -58,6 +59,22 @@ public class DeviationBenchmark extends Benchmark {
         }
     }
 
+
+    // Standard Deviation / Standardabweichung
+    private double calculateSD(ArrayList<Long> list) {
+        long sum = 0;
+        for (long l : list) {
+            sum += l;
+        }
+        double mean = sum / (double) list.size();
+        double variance = 0;
+        for (long l : list) {
+            variance += Math.pow(l - mean, 2);
+        }
+        variance /= list.size() - 1;
+        return Math.sqrt(variance);
+    }
+
     @Override
     protected void updateResult(JPanel panel, Object data) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -75,20 +92,5 @@ public class DeviationBenchmark extends Benchmark {
 
         panel.add(rangeLabel);
         panel.add(deviationLabel);
-    }
-
-    // Standard Deviation / Standardabweichung
-    private double calculateSD(ArrayList<Long> list) {
-        long sum = 0;
-        for (long l : list) {
-            sum += l;
-        }
-        double mean = sum / (double) list.size();
-        double variance = 0;
-        for (long l : list) {
-            variance += Math.pow(l - mean, 2);
-        }
-        variance /= list.size() - 1;
-        return Math.sqrt(variance);
     }
 }

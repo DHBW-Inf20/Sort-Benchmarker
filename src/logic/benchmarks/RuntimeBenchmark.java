@@ -26,7 +26,6 @@ public class RuntimeBenchmark extends Benchmark {
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
-        //TODO: use seed
 //        int[][] arr = new int[iterations][];
 //        for (int i = 0; i < iterations; i++) {
 //            arr[i] = new int[arraySize];
@@ -40,6 +39,7 @@ public class RuntimeBenchmark extends Benchmark {
 
         ArrayList<Long> tempResults = new ArrayList<>();
         for (Sorter sorter : sortPool) {
+            if (!sorter.passedTests()) continue;
             tempResults.clear();
             for (int i = 0; i < iterations; i++) {
                 int[] arr = new int[arraySize];

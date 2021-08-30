@@ -136,6 +136,9 @@ public class Benchmarker {
                 int[] sorted = sorter.sort(toSort);
                 if (isSorted(sorted, toSort.length)) {
                     result.put(sorter, result.get(sorter) + 1);
+                    if (result.get(sorter) == testsCount) {
+                        sorter.setTestsPassed(true);
+                    }
                 }
             }
         }
