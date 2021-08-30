@@ -48,12 +48,20 @@ public class DeviationBenchmark extends Benchmark {
                 if (value > max) max = value;
             }
 
+            long sum = 0;
+            for (long l : tempResults) {
+                sum += l;
+            }
+            double mean = sum / (double) tempResults.size();
+
             long range = max - min;
-            double standardDeviation = calculateSD(tempResults);
+            double standardDeviation = calculateSD(tempResults, mean);
+            double coefficientOfVariation = (standardDeviation / mean) * 100;
 
             HashMap<String, Object> result = new HashMap<>();
             result.put("range", range);
             result.put("standardDeviation", standardDeviation);
+            result.put("coefficientOfVariation", coefficientOfVariation);
 
             updateResult(sorter, result);
         }
@@ -61,12 +69,7 @@ public class DeviationBenchmark extends Benchmark {
 
 
     // Standard Deviation / Standardabweichung
-    private double calculateSD(ArrayList<Long> list) {
-        long sum = 0;
-        for (long l : list) {
-            sum += l;
-        }
-        double mean = sum / (double) list.size();
+    private double calculateSD(ArrayList<Long> list, double mean) {
         double variance = 0;
         for (long l : list) {
             variance += Math.pow(l - mean, 2);
@@ -83,14 +86,19 @@ public class DeviationBenchmark extends Benchmark {
 
         long range = (Long) result.get("range");
         double standardDeviation = (Double) result.get("standardDeviation");
+        double coefficientOfVariation = (Double) result.get("coefficientOfVariation");
 
-        JLabel rangeLabel = new JLabel("Spannweite: " + range);
+        JLabel rangeLabel = new JLabel("Spannweite: " + range + " ms");
         rangeLabel.setFont(Settings.font);
 
-        JLabel deviationLabel = new JLabel("Standardabweichung: " + Math.round(standardDeviation * 100) / 100d);
+        JLabel deviationLabel = new JLabel("Standardabweichung: " + Math.round(standardDeviation * 100) / 100d + " ms");
         deviationLabel.setFont(Settings.font);
+
+        JLabel variationLabel = new JLabel("Variationskoeffizient: " + Math.round(coefficientOfVariation * 100) / 100d + "%");
+        variationLabel.setFont(Settings.font);
 
         panel.add(rangeLabel);
         panel.add(deviationLabel);
+        panel.add(variationLabel);
     }
 }

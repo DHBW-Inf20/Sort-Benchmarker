@@ -7,7 +7,6 @@ import utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +15,9 @@ public class SortHeader extends JPanel {
     private final Benchmarker benchmarker;
     private final ResultPanel resultPanel;
     private final SortSelection sortSelection;
+
+    private Thread benchmarkThread;
+    private boolean benchmarksRunning;
 
     public SortHeader(Benchmarker benchmarker, ResultPanel resultPanel, SortSelection sortSelection) {
         this.benchmarker = benchmarker;
@@ -52,21 +54,31 @@ public class SortHeader extends JPanel {
             new OptionsDialog(bm.getName() + " - Optionen", "Übernehmen", bm.getOptions(), () -> {});
         });
 
-        JButton start = new JButton("Start Benchmark");
-        start.setFont(Settings.fontBold);
-        start.addActionListener(e -> {
-            start.setEnabled(false);
-            benchmarks.setEnabled(false);
-            options.setEnabled(false);
-            arrayType.setEnabled(false);
-            sortSelection.disableButtons();
-            startBenchmark((String) benchmarks.getSelectedItem(), (Benchmark.ArrayType) arrayType.getSelectedItem(), () -> {
-                start.setEnabled(true);
-                benchmarks.setEnabled(true);
-                options.setEnabled(true);
-                arrayType.setEnabled(true);
-                sortSelection.enableButtons();
-            });
+        JButton startStop = new JButton("Start Benchmark");
+        startStop.setFont(Settings.fontBold);
+        startStop.addActionListener(e -> {
+            if (!benchmarksRunning) {
+                benchmarksRunning = true;
+                startStop.setText("Stop Benchmark");
+                benchmarks.setEnabled(false);
+                options.setEnabled(false);
+                arrayType.setEnabled(false);
+                sortSelection.disableButtons();
+                benchmarkThread = createBenchmarkThread((String) benchmarks.getSelectedItem(), (Benchmark.ArrayType) arrayType.getSelectedItem(), () -> {
+                    startStop.setText("Start Benchmark");
+                    benchmarks.setEnabled(true);
+                    options.setEnabled(true);
+                    arrayType.setEnabled(true);
+                    sortSelection.enableButtons();
+                    if (benchmarker.getCurrentBenchmark() != null) {
+                        benchmarker.getCurrentBenchmark().benchmarkStopped();
+                    }
+                    benchmarksRunning = false;
+                });
+                benchmarkThread.start();
+            } else if (benchmarkThread != null && benchmarkThread.isAlive()) {
+                benchmarkThread.stop();
+            }
         });
 
         west.add(benchmarkLabel);
@@ -76,14 +88,14 @@ public class SortHeader extends JPanel {
         west.add(arrayTypeLabel);
         west.add(arrayType);
 
-        east.add(start);
+        east.add(startStop);
 
 
         add(east, BorderLayout.EAST);
         add(west, BorderLayout.WEST);
     }
 
-    private void startBenchmark(String benchmark, Benchmark.ArrayType arrayType, Runnable finish) {
+    private Thread createBenchmarkThread(String benchmark, Benchmark.ArrayType arrayType, Runnable finish) {
         HashMap<Sorter, Integer> testResult = benchmarker.testAlgorithms();
         resultPanel.setTestResult(testResult);
 
@@ -92,9 +104,12 @@ public class SortHeader extends JPanel {
 
         bm.setArrayType(arrayType);
 
-        new Thread(() -> {
-            benchmarker.benchmark(bm);
-            finish.run();
-        }).start();
+        return new Thread(() -> {
+            try {
+                benchmarker.benchmark(bm);
+            } finally {
+                finish.run();
+            }
+        });
     }
 }

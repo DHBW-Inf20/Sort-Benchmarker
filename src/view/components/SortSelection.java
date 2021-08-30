@@ -5,11 +5,9 @@ import sort.Sorter;
 import utils.Settings;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import java.awt.geom.RoundRectangle2D;
 
 public class SortSelection extends JPanel {
 
@@ -56,7 +54,7 @@ public class SortSelection extends JPanel {
         c.gridy++;
         add(selectPane, c);
 
-        addSpace(this, 30, c);
+        addSpace(this, 10, c);
         addTitle(this, "Hinzugefügte Algorithmen", c);
         addSpace(this, 10, c);
         c.gridy++;

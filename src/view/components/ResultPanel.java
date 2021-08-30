@@ -85,17 +85,19 @@ public class ResultPanel extends JPanel {
             JLabel passedTextLabel = new JLabel("Tests bestanden: ");
             passedTextLabel.setFont(Settings.font);
 
-            JLabel errorLabel = new JLabel("Algorithmus ist fehlerhaft!");
-            errorLabel.setFont(Settings.font);
-            errorLabel.setForeground(Color.red);
-
             JLabel passedLabel = new JLabel(testsPassed + " / " + Benchmarker.testsCount);
             if (testsPassed >= Benchmarker.testsCount) {
                 Color DARK_GREEN = new Color(0, 192, 0);
                 passedLabel.setForeground(DARK_GREEN);
             } else {
                 passedLabel.setForeground(Color.RED);
+
                 sortResultPanel.setLayout(new BorderLayout());
+
+                JLabel errorLabel = new JLabel("Algorithmus ist fehlerhaft!");
+                errorLabel.setFont(Settings.font);
+                errorLabel.setForeground(Color.red);
+
                 sortResultPanel.add(errorLabel);
             }
             passedLabel.setFont(Settings.font);

@@ -105,6 +105,26 @@ public abstract class Benchmark {
         }
     }
 
+    public void benchmarkStopped() {
+        if (panels != null) {
+            for (JPanel panel : panels.values()) {
+                Component[] components = panel.getComponents();
+                if (components.length == 1) {
+                    if (components[0] instanceof JLabel) {
+                        if (((JLabel) components[0]).getText().equals("Benchmark läuft...")) {
+                            panel.setLayout(new BorderLayout());
+                            JLabel runningLabel = new JLabel("Benchmark wurde abgebrochen.");
+                            runningLabel.setFont(Settings.font);
+                            panel.removeAll();
+                            panel.add(runningLabel);
+                            revalidatePanel(panel);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void revalidatePanel(JPanel panel) {
         if (panel.getParent() != null && panel.getParent().getParent() != null) {
             JComponent parent = (JComponent) panel.getParent().getParent();
