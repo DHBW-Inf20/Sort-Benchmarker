@@ -26,11 +26,6 @@ public class RuntimeBenchmark extends Benchmark {
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
-//        int[][] arr = new int[iterations][];
-//        for (int i = 0; i < iterations; i++) {
-//            arr[i] = new int[arraySize];
-//            getArray(arr[i]);
-//        }
         Random random = new Random();
         long[] seeds = new long[iterations];
         for (int i = 0; i < iterations; i++) {
@@ -77,13 +72,13 @@ public class RuntimeBenchmark extends Benchmark {
         long min = (Long) result.get("min");
         long max = (Long) result.get("max");
 
-        JLabel meanDuration = new JLabel("Durchschnittliche Laufzeit: " + Math.round(mean * 100) / 100);
+        JLabel meanDuration = new JLabel("Durchschnittliche Laufzeit: " + Math.round(mean * 100) / 100d + " ms");
         meanDuration.setFont(Settings.font);
 
-        JLabel minDuration = new JLabel("Minimale Laufzeit: " + min);
+        JLabel minDuration = new JLabel("Minimale Laufzeit: " + min + " ms");
         minDuration.setFont(Settings.font);
 
-        JLabel maxDuration = new JLabel("Maximale Laufzeit: " + max);
+        JLabel maxDuration = new JLabel("Maximale Laufzeit: " + max + " ms");
         maxDuration.setFont(Settings.font);
 
         panel.add(meanDuration);

@@ -1,9 +1,6 @@
 package logic;
 
-import logic.benchmarks.RuntimeBenchmark;
 import sort.Sorter;
-import sort.algorithms.QuickSort;
-import sort.algorithms.QuickSortMT;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -66,7 +63,7 @@ public class Benchmarker {
             Sorter sorter = sorterClass.getDeclaredConstructor().newInstance();
             if (addToSortPool) {
                 sortPool.add(sorter);
-                sorter.initSorting();
+                sorter.initSorter();
             }
             return sorter;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -77,7 +74,7 @@ public class Benchmarker {
 
     public void addToSortPool(Sorter sorter) {
         try {
-            sorter.initSorting();
+            sorter.initSorter();
             this.sortPool.add(sorter);
         } catch (Exception e) {
             e.printStackTrace();

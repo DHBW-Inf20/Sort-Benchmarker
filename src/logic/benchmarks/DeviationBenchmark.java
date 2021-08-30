@@ -68,7 +68,13 @@ public class DeviationBenchmark extends Benchmark {
     }
 
 
-    // Standard Deviation / Standardabweichung
+    /**
+     * Berechnung der Standardabweichung
+     *
+     * @param list  Liste der Laufzeiten eines Algorithmus
+     * @param mean  Mittelwert der Laufzeiten eines Algorithmus
+     * @return      standardDeviation
+     */
     private double calculateSD(ArrayList<Long> list, double mean) {
         double variance = 0;
         for (long l : list) {

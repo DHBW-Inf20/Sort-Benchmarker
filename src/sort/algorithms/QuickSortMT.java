@@ -23,7 +23,7 @@ public class QuickSortMT extends Sorter {
     }
 
     @Override
-    public void initSorting() {
+    public void initSorter() {
         if ((boolean) getValue("commonPool")) {
             pool = ForkJoinPool.commonPool();
         } else {
