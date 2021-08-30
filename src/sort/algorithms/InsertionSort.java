@@ -6,7 +6,14 @@ public class InsertionSort extends Sorter {
 
     public int[] unsortedArray;
 
-    public int[] sort() {
+    @Override
+    public String getName() {
+        return "InsertionSort";
+    }
+
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
         int temp;
         for (int i = 0; i < unsortedArray.length; i++) {
             for (int j = unsortedArray.length-1; j > 0; j--) {
@@ -18,16 +25,5 @@ public class InsertionSort extends Sorter {
             }
         }
         return unsortedArray;
-    }
-
-    @Override
-    public String getName() {
-        return "InsertionSort";
-    }
-
-    @Override
-    public int[] sort(int[] toSort) {
-        unsortedArray = toSort;
-        return new int[0];
     }
 }

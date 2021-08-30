@@ -6,7 +6,14 @@ public class SelectionSort extends Sorter {
 
     public int[] unsortedArray;
 
-    public int[] sort() {
+    @Override
+    public String getName() {
+        return "SelectionSort";
+    }
+
+    @Override
+    public int[] sort(int[] toSort) {
+        unsortedArray = toSort;
         int q, temp;
         for (int i = unsortedArray.length - 1; i >= 1; i--) {
             q = 0;
@@ -20,16 +27,5 @@ public class SelectionSort extends Sorter {
             unsortedArray[i] = temp;
         }
         return unsortedArray;
-    }
-
-    @Override
-    public String getName() {
-        return "SelectionSort";
-    }
-
-    @Override
-    public int[] sort(int[] toSort) {
-//        unsortedArray = toSort;
-        return toSort;
     }
 }

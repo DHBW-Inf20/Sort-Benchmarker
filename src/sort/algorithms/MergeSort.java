@@ -48,6 +48,7 @@ public class MergeSort extends Sorter{
     @Override
     public int[] sort(int[] toSort) {
         unsortedArray = toSort;
-        return new int[0];
+        this.sort(0, unsortedArray.length - 1);
+        return unsortedArray;
     }
 }
