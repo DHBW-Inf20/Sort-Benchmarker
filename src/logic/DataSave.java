@@ -8,24 +8,36 @@ import java.nio.file.Paths;
 
 public interface DataSave {
 
-    public static void Save (int numberOfInputs, int TimeDuration){
+    public static void Save (String algorithm, int numberOfInputs, float maxTime, float minTime, float meanTime, float deviation, float range, boolean timeBenchmark){
 
-        Path savedFile = Paths.get("src\\logic", "Outcomes.csv");
+        Path saveFile = Paths.get("src\\Outcomes", "Outcomes.csv");
 
-        try(BufferedWriter input = Files.newBufferedWriter(savedFile)){
-            String line = String.format(numberOfInputs + ";" + TimeDuration + "%n");
-            String[] availableData = DataLoad.Load();
-            int numberOfData = availableData.length;
+        try(BufferedWriter input = Files.newBufferedWriter(saveFile)){
 
-            if (availableData != null){
+            StringBuilder data = new StringBuilder();
 
-                for(int i = 0; i < numberOfData; i++){
-                    input.write(availableData[i]);
-                }
+            data.append("Algorithm;");
+            data.append("Number of Inputs;");
+
+            if (timeBenchmark) {
+                data.append("Max. time duration;");
+                data.append("Min. time duration;");
+                data.append("Mean time duration\n");
+            } else {
+                data.append("Experimental standard deviation;");
+                data.append("Range\n");
             }
-            input.write(line);
+            data.append(algorithm + ";");
+            data.append(numberOfInputs + ";");
+            data.append(maxTime + ";");
+            data.append(minTime + ";");
+            data.append(meanTime + ";");
+            data.append(deviation + ";");
+            data.append(range + '\n');
+
+            input.write(data.toString());
         }
-        catch(IOException ex){
+            catch(IOException ex){
             System.out.printf(ex.getMessage());
         }
     }

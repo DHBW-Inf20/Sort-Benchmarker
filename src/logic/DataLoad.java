@@ -8,7 +8,7 @@ public interface DataLoad {
 
     public static String[] Load () {
 
-        String file = "src\\logic\\Outcomes.csv";
+        String file = "src\\Outcomes\\Outcomes.csv";
         BufferedReader reader = null;
         String line = "";
         String[] data = null;

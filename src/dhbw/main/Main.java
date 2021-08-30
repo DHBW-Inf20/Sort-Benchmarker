@@ -1,22 +1,16 @@
 package dhbw.main;
 
 import logic.Benchmarker;
-import sort.algorithms.BubbleSort;
+import logic.DataSave;
 import sort.algorithms.MergeSort;
-import sort.algorithms.QuickSort;
 
 import java.util.Arrays;
-
-import logic.DataSave;
 
 public class Main
 {
     public static void main(String[] args) throws InterruptedException {
 
-        int x = 10;
-        int y = 5;
-
-        DataSave.Save(x,y);
+        DataSave.Save("Quick Sort",1000, 10.1f, 12.5f, 11.9f, 5.2f, 15.7f,true);
 
         /*
         int[] unsortedArrayList = {9,5,3,8,2,7,1};
