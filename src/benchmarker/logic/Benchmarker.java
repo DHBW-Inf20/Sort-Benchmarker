@@ -1,12 +1,13 @@
 package benchmarker.logic;
 
 import benchmarker.sort.Sorter;
+import benchmarker.utils.CSVUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Benchmarker {
 
@@ -183,13 +184,34 @@ public class Benchmarker {
         }
     }
 
+    public Benchmark getCurrentBenchmark() {
+        return currentBenchmark;
+    }
+
     public void benchmark(Benchmark benchmark) {
         currentBenchmark = benchmark;
         benchmark.beforeBenchmark();
         benchmark.benchmark(sortPool);
     }
 
-    public Benchmark getCurrentBenchmark() {
-        return currentBenchmark;
+    public boolean exportResults() throws IOException {
+        if (getCurrentBenchmark() == null) {
+            return false;
+        }
+
+        File exportFolder = new File("exports");
+        if (!exportFolder.exists()) {
+            exportFolder.mkdir();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdc = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        String exportFileName = getCurrentBenchmark().getName() + " " + sdc.format(cal.getTime());
+
+        File file = new File("exports/" + exportFileName + ".csv");
+
+        CSVUtils csvUtils = new CSVUtils(file);
+        getCurrentBenchmark().exportResults(csvUtils);
+        return csvUtils.writeFile();
     }
 }

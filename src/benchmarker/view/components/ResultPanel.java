@@ -7,6 +7,7 @@ import benchmarker.utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ResultPanel extends JPanel {
@@ -14,6 +15,8 @@ public class ResultPanel extends JPanel {
     private final Benchmarker benchmarker;
 
     private final JPanel panel;
+
+    private JButton exportBtn;
 
     private final HashMap<Sorter, JPanel> sortResultPanels;
     public HashMap<Sorter, Integer> testResult;
@@ -30,8 +33,39 @@ public class ResultPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(8);
 
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        exportBtn = new JButton("Exportieren (CSV)");
+        exportBtn.setFont(Settings.font);
+        exportBtn.setEnabled(false); // Wird initial deaktiviert und nach dem Benchmark aktiviert
+        exportBtn.addActionListener(e -> {
+            try {
+                if (benchmarker.exportResults()) {
+                    JOptionPane.showMessageDialog(this, "Erfolgreich exportiert!\n Die Datei befindet sich im \"exports\" Ordner.", "Export", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Beim exportieren ist ein Fehler unterlaufen.", "Export", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        south.add(exportBtn);
+
         add(Box.createHorizontalStrut(5), BorderLayout.WEST);
         add(scrollPane, BorderLayout.CENTER);
+        add(south, BorderLayout.SOUTH);
+    }
+
+    public void enableButtons() {
+        if (exportBtn != null) {
+            exportBtn.setEnabled(true);
+        }
+    }
+
+    public void disableButtons() {
+        if (exportBtn != null) {
+            exportBtn.setEnabled(false);
+        }
     }
 
     public void setTestResult(HashMap<Sorter, Integer> testResult) {
