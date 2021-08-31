@@ -2,6 +2,7 @@ package benchmarker.logic.benchmarks;
 
 import benchmarker.logic.Benchmark;
 import benchmarker.sort.Sorter;
+import benchmarker.utils.CSVUtils;
 import benchmarker.utils.Settings;
 import benchmarker.utils.options.Option;
 import benchmarker.utils.options.OptionType;
@@ -11,7 +12,11 @@ import java.util.*;
 
 public class RuntimeBenchmark extends Benchmark {
 
+    private final ArrayList<String[]> contents;
+
     public RuntimeBenchmark() {
+        contents = new ArrayList<>();
+
         addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 10));
     }
@@ -23,6 +28,8 @@ public class RuntimeBenchmark extends Benchmark {
 
     @Override
     public void benchmark(List<Sorter> sortPool) {
+        contents.clear();
+
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
@@ -52,11 +59,14 @@ public class RuntimeBenchmark extends Benchmark {
                 if (l > max) max = l;
                 if (l < min) min = l;
             }
+            double mean = sum / (double) tempResults.size();
 
             HashMap<String, Object> result = new HashMap<>();
-            result.put("mean", sum / (double) tempResults.size());
+            result.put("mean", mean);
             result.put("max", max);
             result.put("min", min);
+
+            contents.add(new String[] {sorter.getName(), numberToString(mean), numberToString(min), numberToString(max)});
 
             updateResult(sorter, result);
         }
@@ -86,8 +96,11 @@ public class RuntimeBenchmark extends Benchmark {
         panel.add(maxDuration);
     }
 
-//    public void export(CSV csv) {
-//        csv.setHeader(["mean", "min", "max"]);
-//        csv
-//    }
+    @Override
+    public void exportResults(CSVUtils csvUtils) {
+        csvUtils.setHeader(new String[] {"Algorithmus", "Mittlere Laufzeit", "Minimale Laufzeit", "Maxinale Laufzeit"});
+        for (String[] content : contents) {
+            csvUtils.addContent(content);
+        }
+    }
 }

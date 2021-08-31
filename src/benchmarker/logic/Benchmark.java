@@ -1,6 +1,7 @@
 package benchmarker.logic;
 
 import benchmarker.sort.Sorter;
+import benchmarker.utils.CSVUtils;
 import benchmarker.utils.options.OptionType;
 import benchmarker.utils.Settings;
 import benchmarker.utils.options.Option;
@@ -234,6 +235,21 @@ public abstract class Benchmark {
      * @param data      Daten, welche mit {@link #updateResult(Sorter, Object)} mitgesendet wurden
      */
     protected abstract void updateResult(JPanel panel, Object data);
+
+    /**
+     * @param csvUtils  {@link CSVUtils}
+     */
+    public abstract void exportResults(CSVUtils csvUtils);
+
+    /**
+     * Macht aus einer Zahl einen String und ersetzt das "." mit ",".
+     *
+     * @param num   Zahl
+     * @return      String
+     */
+    protected String numberToString(Object num) {
+        return String.valueOf(num).replace('.', ',');
+    }
 
     public enum ArrayType {
         RANDOM, ASC, DESC;

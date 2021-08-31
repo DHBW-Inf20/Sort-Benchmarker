@@ -64,12 +64,14 @@ public class SortHeader extends JPanel {
                 options.setEnabled(false);
                 arrayType.setEnabled(false);
                 sortSelection.disableButtons();
+                resultPanel.disableButtons();
                 benchmarkThread = createBenchmarkThread((String) benchmarks.getSelectedItem(), (Benchmark.ArrayType) arrayType.getSelectedItem(), () -> {
                     startStop.setText("Start Benchmark");
                     benchmarks.setEnabled(true);
                     options.setEnabled(true);
                     arrayType.setEnabled(true);
                     sortSelection.enableButtons();
+                    resultPanel.enableButtons();
                     if (benchmarker.getCurrentBenchmark() != null) {
                         benchmarker.getCurrentBenchmark().benchmarkStopped();
                     }

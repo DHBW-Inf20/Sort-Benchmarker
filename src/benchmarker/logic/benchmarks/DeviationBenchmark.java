@@ -2,6 +2,7 @@ package benchmarker.logic.benchmarks;
 
 import benchmarker.logic.Benchmark;
 import benchmarker.sort.Sorter;
+import benchmarker.utils.CSVUtils;
 import benchmarker.utils.Settings;
 import benchmarker.utils.options.Option;
 import benchmarker.utils.options.OptionType;
@@ -11,7 +12,11 @@ import java.util.*;
 
 public class DeviationBenchmark extends Benchmark {
 
+    private final ArrayList<String[]> contents;
+
     public DeviationBenchmark() {
+        contents = new ArrayList<>();
+
         addOption(new Option("Array-Größe", OptionType.NUMBER, 500000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 50));
     }
@@ -23,19 +28,26 @@ public class DeviationBenchmark extends Benchmark {
 
     @Override
     public void benchmark(List<Sorter> sortPool) {
+        contents.clear();
+
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
 
-        int[] arr = new int[arraySize];
-        getArray(arr);
+        Random random = new Random();
+        long[] seeds = new long[iterations];
+        for (int i = 0; i < iterations; i++) {
+            seeds[i] = random.nextLong();
+        }
+
         ArrayList<Long> tempResults = new ArrayList<>();
         for (Sorter sorter : sortPool) {
             if (!sorter.passedTests()) continue;
             tempResults.clear();
             for (int i = 0; i < iterations; i++) {
-                int[] toSort = Arrays.copyOf(arr, arr.length);
+                int[] arr = new int[arraySize];
+                getArray(arr, seeds[i]);
                 long start = System.currentTimeMillis();
-                sorter.sort(toSort);
+                sorter.sort(arr);
                 long stop = System.currentTimeMillis();
                 tempResults.add(stop - start);
             }
@@ -64,9 +76,13 @@ public class DeviationBenchmark extends Benchmark {
             result.put("standardDeviation", standardDeviation);
             result.put("coefficientOfVariation", coefficientOfVariation);
 
+            contents.add(new String[] {sorter.getName(), numberToString(mean), numberToString(range),
+                    numberToString(standardDeviation), numberToString(coefficientOfVariation)});
+
             updateResult(sorter, result);
         }
     }
+
 
 
     /**
@@ -91,7 +107,7 @@ public class DeviationBenchmark extends Benchmark {
 
         HashMap<String, Object> result = (HashMap<String, Object>) data;
 
-        long mean = (Long) result.get("mean");
+        double mean = (Double) result.get("mean");
         long range = (Long) result.get("range");
         double standardDeviation = (Double) result.get("standardDeviation");
         double coefficientOfVariation = (Double) result.get("coefficientOfVariation");
@@ -112,5 +128,13 @@ public class DeviationBenchmark extends Benchmark {
         panel.add(rangeLabel);
         panel.add(deviationLabel);
         panel.add(variationLabel);
+    }
+
+    @Override
+    public void exportResults(CSVUtils csvUtils) {
+        csvUtils.setHeader(new String[] {"Algorithmus", "Mittlere Laufzeit", "Spannweite", "Standardabweichung", "Variationskoeffizient"});
+        for (String[] content : contents) {
+            csvUtils.addContent(content);
+        }
     }
 }

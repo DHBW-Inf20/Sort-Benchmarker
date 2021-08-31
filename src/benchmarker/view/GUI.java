@@ -34,8 +34,7 @@ public class GUI extends JFrame {
         panel.setLayout(new BorderLayout());
 
         SortSelection sortSelection = new SortSelection(benchmarker);
-        // Set width for sort selection panel
-        sortSelection.setPreferredSize(new Dimension(350, 0));
+        sortSelection.setPreferredSize(new Dimension(350, 0)); // Setzt Breite des SortSelection Panels
 
         ResultPanel resultPanel = new ResultPanel(benchmarker);
 
