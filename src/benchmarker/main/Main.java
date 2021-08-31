@@ -1,11 +1,11 @@
 package benchmarker.main;
 
-import logic.Benchmarker;
-import logic.benchmarks.DeviationBenchmark;
-import logic.benchmarks.RuntimeBenchmark;
-import sort.algorithms.*;
-import utils.Addons;
-import view.GUI;
+import benchmarker.logic.Benchmarker;
+import benchmarker.logic.benchmarks.DeviationBenchmark;
+import benchmarker.logic.benchmarks.RuntimeBenchmark;
+import benchmarker.sort.algorithms.*;
+import benchmarker.utils.Addons;
+import benchmarker.view.GUI;
 
 public class Main {
 
@@ -17,7 +17,6 @@ public class Main {
         benchmarker.addSorterClass(MergeSort.class);
         benchmarker.addSorterClass(MergeSortMT.class);
 
-        benchmarker.addSorterClass(BubbleSort.class);
         benchmarker.addSorterClass(InsertionSort.class);
         benchmarker.addSorterClass(SelectionSort.class);
 
