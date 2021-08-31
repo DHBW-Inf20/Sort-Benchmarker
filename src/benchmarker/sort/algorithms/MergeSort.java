@@ -2,53 +2,56 @@ package benchmarker.sort.algorithms;
 
 import benchmarker.sort.Sorter;
 
-public class MergeSort extends Sorter{
-
-    public static int[] unsortedArray;
-
-    public int[] sort(int unsortedLeftPart, int unsortedRightPart) {
-
-        if (unsortedLeftPart < unsortedRightPart) {
-            int dividedArray = (unsortedLeftPart + unsortedRightPart) / 2;
-
-            sort(unsortedLeftPart, dividedArray);
-            sort(dividedArray + 1, unsortedRightPart);
-            merge(unsortedLeftPart, dividedArray, unsortedRightPart);
-        }
-        return unsortedArray;
-    }
-
-    private void merge(int leftPart, int dividedList, int unsortedRightPart) {
-        int[] sortedArray = new int[unsortedArray.length];
-        int sortedLeftPart, sortedRightPart;
-        for (sortedLeftPart = leftPart; sortedLeftPart <= dividedList; sortedLeftPart++) {
-            sortedArray[sortedLeftPart] = unsortedArray[sortedLeftPart];
-        }
-        for (sortedRightPart = dividedList + 1; sortedRightPart <= unsortedRightPart; sortedRightPart++) {
-            sortedArray[unsortedRightPart + dividedList + 1 - sortedRightPart] = unsortedArray[sortedRightPart];
-        }
-        sortedLeftPart = leftPart;
-        sortedRightPart = unsortedRightPart;
-        for (int k = leftPart; k <= unsortedRightPart; k++) {
-            if (sortedArray[sortedLeftPart] <= sortedArray[sortedRightPart]) {
-                unsortedArray[k] = sortedArray[sortedLeftPart];
-                sortedLeftPart++;
-            } else {
-                unsortedArray[k] = sortedArray[sortedRightPart];
-                sortedRightPart--;
-            }
-        }
-    }
+public class MergeSort extends Sorter
+{
 
     @Override
     public String getName() {
         return "MergeSort";
     }
+    private int[] leftarray;
+    private int[] tempArray;    // Hilfsarray
+    private int length;
 
     @Override
-    public int[] sort(int[] toSort) {
-        unsortedArray = toSort;
-        this.sort(0, unsortedArray.length - 1);
+    public int[] sort(int[] unsortedArray) {
+
+        this.leftarray =unsortedArray;
+        length =unsortedArray.length;
+        tempArray =new int[length];
+        mergesort(0, length -1);
         return unsortedArray;
+    }
+
+    private void mergesort(int lo, int hi)
+    {
+        if (lo<hi) //if there is more than 1 element
+        {
+            int m=lo+(hi-lo)/2;
+            mergesort(lo, m);
+            mergesort(m+1, hi);
+            merge(lo, m, hi);
+        }
+    }
+
+    void merge(int momentanerPunkt, int rest, int until) //bitte auf englisch machen kuss kuss
+    {
+        int leftSide, rightSide, leftAndRightSide;
+
+        //copy both halfs
+        for (leftSide=momentanerPunkt; leftSide<=until; leftSide++)
+            tempArray[leftSide]= leftarray[leftSide];
+
+        leftSide=momentanerPunkt; rightSide=rest+1; leftAndRightSide=momentanerPunkt;
+        // jeweils das nächstgrößte Element zurückkopieren
+        while (leftSide<=rest && rightSide<=until)
+            if (tempArray[leftSide]<= tempArray[rightSide])
+                leftarray[leftAndRightSide++]= tempArray[leftSide++];
+            else
+                leftarray[leftAndRightSide++]= tempArray[rightSide++];
+
+        // Rest der vorderen Hälfte falls vorhanden zurückkopieren
+        while (leftSide<=rest)
+            leftarray[leftAndRightSide++]= tempArray[leftSide++];
     }
 }
