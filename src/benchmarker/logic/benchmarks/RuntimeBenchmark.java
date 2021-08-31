@@ -98,7 +98,7 @@ public class RuntimeBenchmark extends Benchmark {
 
     @Override
     public void exportResults(CSVUtils csvUtils) {
-        csvUtils.setHeader(new String[] {"Algorithmus", "Mittlere Laufzeit", "Minimale Laufzeit", "Maxinale Laufzeit"});
+        csvUtils.setHeader(new String[] {"Algorithmus", "Mittlere Laufzeit", "Minimale Laufzeit", "Maximale Laufzeit"});
         for (String[] content : contents) {
             csvUtils.addContent(content);
         }

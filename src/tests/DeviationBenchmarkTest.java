@@ -1,5 +1,6 @@
 package tests;
 
+import benchmarker.logic.Benchmark;
 import benchmarker.logic.benchmarks.DeviationBenchmark;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,8 @@ public class DeviationBenchmarkTest {
     @Test
     void DeviationBenchmarkTest() {
         DeviationBenchmark deviationBenchmark = new DeviationBenchmark();
-        assertNotNull(deviationBenchmark);
         assertEquals("Abweichung Benchmark", deviationBenchmark.getName());
+        deviationBenchmark.setArrayType(Benchmark.ArrayType.ASC);
+        assertEquals(Benchmark.ArrayType.ASC, deviationBenchmark.getArrayType());
     }
 }

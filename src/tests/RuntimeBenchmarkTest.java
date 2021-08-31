@@ -1,5 +1,6 @@
 package tests;
 
+import benchmarker.logic.Benchmark;
 import benchmarker.logic.benchmarks.RuntimeBenchmark;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,8 @@ public class RuntimeBenchmarkTest {
     @Test
     void RuntimeBenchmarkTest() {
         RuntimeBenchmark runtimeBenchmark = new RuntimeBenchmark();
-        assertNotNull(runtimeBenchmark);
         assertEquals("Laufzeit Benchmark", runtimeBenchmark.getName());
+        runtimeBenchmark.setArrayType(Benchmark.ArrayType.ASC);
+        assertEquals(Benchmark.ArrayType.ASC, runtimeBenchmark.getArrayType());
     }
 }
