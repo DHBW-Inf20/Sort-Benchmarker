@@ -14,13 +14,13 @@ public class MergeSort extends Sorter
     private int length;
 
     @Override
-    public int[] sort(int[] unsortedArray) {
+    public int[] sort(int[] toSort) {
 
-        this.leftarray =unsortedArray;
-        length =unsortedArray.length;
+        this.leftarray =toSort;
+        length =toSort.length;
         tempArray =new int[length];
         mergesort(0, length -1);
-        return unsortedArray;
+        return toSort;
     }
 
     private void mergesort(int lo, int hi)
