@@ -4,15 +4,24 @@ import benchmarker.sort.Sorter;
 
 public class MergeSort extends Sorter
 {
-
+    /**
+     *
+     * @return          Name des Sortieralgorithmus
+     */
     @Override
     public String getName() {
         return "MergeSort";
     }
+
     private int[] leftarray;
     private int[] tempArray;    // Hilfsarray
     private int length;
 
+    /**
+     * Das unsortierte Array wird rekursiv in zwei Teile aufgeteilt, die getrennt sortiert und anschließend wieder zusammengefügt werden.
+     * @param toSort    Zu sortierendes Array
+     * @return
+     */
     @Override
     public int[] sort(int[] toSort) {
 
@@ -23,17 +32,28 @@ public class MergeSort extends Sorter
         return toSort;
     }
 
-    private void mergesort(int lo, int hi)
+    /**
+     *
+     * @param low
+     * @param high
+     */
+    private void mergesort(int low, int high)
     {
-        if (lo<hi) //if there is more than 1 element
+        if (low<high) //if there is more than 1 element
         {
-            int m=lo+(hi-lo)/2;
-            mergesort(lo, m);
-            mergesort(m+1, hi);
-            merge(lo, m, hi);
+            int m=low+(high-low)/2;
+            mergesort(low, m);
+            mergesort(m+1, high);
+            merge(low, m, high);
         }
     }
 
+    /**
+     *
+     * @param momentanerPunkt
+     * @param rest
+     * @param until
+     */
     void merge(int momentanerPunkt, int rest, int until) //bitte auf englisch machen kuss kuss
     {
         int leftSide, rightSide, leftAndRightSide;

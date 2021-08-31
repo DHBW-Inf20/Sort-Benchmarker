@@ -17,6 +17,10 @@ public class QuickSortMT extends Sorter {
         addOption(new Option("commonPool", OptionType.BOOL, false));
     }
 
+    /**
+     *
+     * @return          Name des Sortieralgorithmus
+     */
     @Override
     public String getName() {
         return "QuickSort (Multithreaded)";
@@ -31,6 +35,11 @@ public class QuickSortMT extends Sorter {
         }
     }
 
+    /**
+     *
+     * @param toSort    Zu sortierendes Array
+     * @return          Zu sortierendes Array
+     */
     @Override
     public int[] sort(int[] toSort) {
         pool.invoke(new QuickSortMT.Sort(0, toSort.length - 1, toSort));
@@ -42,9 +51,15 @@ public class QuickSortMT extends Sorter {
         int start, end;
         int[] arr;
 
-        private int partion(int start, int end, int[] arr) {
+        /**
+         *
+         * @param unsortedLeftPart    unsortierter linker Teil des Arrays
+         * @param unsortedRightPart   unsortierter rechter Teil des Arrays
+         * @param arr                 Hilfsarray
+         */
+        private int partion(int unsortedLeftPart, int unsortedRightPart, int[] arr) {
 
-            int i = start, j = end;
+            int i = unsortedLeftPart, j = unsortedRightPart;
 
             int pivote = new Random().nextInt(j - i) + i;
 
@@ -55,12 +70,12 @@ public class QuickSortMT extends Sorter {
 
             while (i <= j) {
 
-                if (arr[i] <= arr[end]) {
+                if (arr[i] <= arr[unsortedRightPart]) {
                     i++;
                     continue;
                 }
 
-                if (arr[j] >= arr[end]) {
+                if (arr[j] >= arr[unsortedRightPart]) {
                     j--;
                     continue;
                 }
@@ -73,17 +88,27 @@ public class QuickSortMT extends Sorter {
             }
 
             t = arr[j + 1];
-            arr[j + 1] = arr[end];
-            arr[end] = t;
+            arr[j + 1] = arr[unsortedRightPart];
+            arr[unsortedRightPart] = t;
             return j + 1;
         }
 
-        public Sort(int start, int end, int[] arr) {
+        /**
+         *
+         * @param unsortedLeftPart    unsortierter linker Teil des Arrays
+         * @param unsortedRightPart   unsortierter rechter Teil des Arrays
+         * @param arr                 Hilfsarray
+         */
+        public Sort(int unsortedLeftPart, int unsortedRightPart, int[] arr) {
             this.arr = arr;
-            this.start = start;
-            this.end = end;
+            this.start = unsortedLeftPart;
+            this.end = unsortedRightPart;
         }
 
+        /**
+         *
+         * @return          null zurückgeben
+         */
         @Override
         protected Integer compute() {
 

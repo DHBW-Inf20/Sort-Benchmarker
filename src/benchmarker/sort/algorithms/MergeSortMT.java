@@ -17,6 +17,10 @@ public class MergeSortMT extends Sorter {
 
     }
 
+    /**
+     *
+     * @return              Name des Sortieralgorithmus
+     */
     @Override
     public String getName() {
         return "MergeSort (Multithreaded)";
@@ -31,12 +35,23 @@ public class MergeSortMT extends Sorter {
         }
     }
 
+    /**
+     *
+     * @param toSort        Zu sortierendes Array
+     * @return              Zu sortierendes Array
+     */
     @Override
     public int[] sort(int[] toSort) {
         pool.invoke(new MergeSortMT.Sort(toSort));
         return toSort;
     }
 
+    /**
+     *
+     * @param firstHalf     erste Hälfte von zu sortierendem Array
+     * @param secondHalf    zweite Hälfte von zu sortierendem Array
+     * @param array         Hilfsarray
+     */
     public static void merge(int[] firstHalf, int[] secondHalf, int[] array) {
         int startFirst = 0;
         int startSecond = 0;
@@ -67,7 +82,6 @@ public class MergeSortMT extends Sorter {
         }
     }
 
-
     public static class Sort extends RecursiveTask<int[]> {
         private int[] array;
 
@@ -75,7 +89,10 @@ public class MergeSortMT extends Sorter {
             this.array = array;
         }
 
-
+        /**
+         *
+         * @return          leeres Array
+         */
         @Override
         protected int[] compute() {
 

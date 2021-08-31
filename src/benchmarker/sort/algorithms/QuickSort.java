@@ -4,51 +4,72 @@ import benchmarker.sort.Sorter;
 
 public class QuickSort extends Sorter {
 
-    public static int[] unsortedArray;
+    public static int[] array;
 
+    /**
+     *
+     * @param unsortedLeftPart      unsortiertes Teilarray links vom Pivotelement
+     * @param unsortedRightPart     unsortiertes Teilarray rechts vom Pivotelement
+     * @return                      Rückgabe teilsortiertes Array
+     */
     public int[] sort(int unsortedLeftPart, int unsortedRightPart) {
         int dividedArray;
         if (unsortedLeftPart < unsortedRightPart) {
             dividedArray = partition(unsortedLeftPart, unsortedRightPart);
-            sort(unsortedLeftPart, dividedArray);
-            sort(dividedArray + 1, unsortedRightPart);
+            sort(unsortedLeftPart, dividedArray); //rekursiver Aufruf für unsortiertes linkes Teilarray
+            sort(dividedArray + 1, unsortedRightPart); //rekursiver Aufruf für unsortiertes rechtes Teilarray
         }
-        return unsortedArray;
+        return array;
     }
 
+    /**
+     * Das unsortierte Array wird in zwei Teilfelder aufgeteilt und das mittlere Element wird als Pivotelement ausgewählt.
+     * @param unsortedLeftPart      unsortiertes Teilarray links vom Pivotelement
+     * @param unsortedRightPart     unsortiertes Teilarray rechts vom Pivotelement
+     * @return                      sortierter Teil des Arrays
+     */
     int partition(int unsortedLeftPart, int unsortedRightPart) {
 
-        int sortedLeftPart, sortedRightPart, pivot = unsortedArray[(unsortedLeftPart + unsortedRightPart) / 2];
+        int sortedLeftPart, sortedRightPart, pivot = array[(unsortedLeftPart + unsortedRightPart) / 2];
         sortedLeftPart = unsortedLeftPart - 1;
         sortedRightPart = unsortedRightPart + 1;
         while (true) {
             do {
                 sortedLeftPart++;
-            } while (unsortedArray[sortedLeftPart] < pivot);
+            } while (array[sortedLeftPart] < pivot);
 
             do {
                 sortedRightPart--;
-            } while (unsortedArray[sortedRightPart] > pivot);
+            } while (array[sortedRightPart] > pivot);
 
             if (sortedLeftPart < sortedRightPart) {
-                int k = unsortedArray[sortedLeftPart];
-                unsortedArray[sortedLeftPart] = unsortedArray[sortedRightPart];
-                unsortedArray[sortedRightPart] = k;
+                int k = array[sortedLeftPart];
+                array[sortedLeftPart] = array[sortedRightPart];
+                array[sortedRightPart] = k;
             } else {
                 return sortedRightPart;
             }
         }
     }
 
+    /**
+     *
+     * @return                      Name des Sortieralgorithmus
+     */
     @Override
     public String getName() {
         return "QuickSort";
     }
 
+    /**
+     *
+     * @param toSort                Zu sortierendes Array
+     * @return                      sortiertes Array
+     */
     @Override
     public int[] sort(int[] toSort) {
-        unsortedArray = toSort;
-        this.sort(0, unsortedArray.length - 1);
-        return unsortedArray;
+        array = toSort;
+        this.sort(0, array.length - 1);
+        return array;
     }
 }
