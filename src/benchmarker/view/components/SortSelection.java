@@ -16,17 +16,25 @@ public class SortSelection extends JPanel {
     private JPanel selectPanel;
     private JPanel selectedPanel;
 
+    /**
+     * In SortSelection wird die Auswahl der Sortieralgorithmen angezeigt
+     *
+     * @param benchmarker   Benchmarker Instanz
+     */
     public SortSelection(Benchmarker benchmarker) {
         this.benchmarker = benchmarker;
         init();
     }
 
+    /**
+     * Initialisiere SortSelection mit SelectPane und SelectedPane
+     */
     private void init() {
 
         setLayout(new GridBagLayout());
 
         selectPanel = new JPanel();
-        initSelectPane();
+        initSelectPanel();
         JScrollPane selectPane = new JScrollPane(selectPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         selectPane.getVerticalScrollBar().setUnitIncrement(8);
 
@@ -61,6 +69,11 @@ public class SortSelection extends JPanel {
         add(selectedPane, c);
     }
 
+    /**
+     * @param panel     Panel, dem ein Abstand hinzugefügt werden soll
+     * @param height    Höhe/Größe des Abstandes
+     * @param c         GridBagConstraints
+     */
     private void addSpace(JPanel panel, int height, GridBagConstraints c) {
         double weighty = c.weighty;
         c.gridy++;
@@ -68,6 +81,13 @@ public class SortSelection extends JPanel {
         panel.add(Box.createVerticalStrut(height) , c);
         c.weighty = weighty;
     }
+
+
+    /**
+     * @param panel     Panel, dem ein Titel hinzugefügt werden soll
+     * @param title     Titel, der hinzugefügt werden soll
+     * @param c         GridBagConstraints
+     */
     private void addTitle(JPanel panel, String title, GridBagConstraints c) {
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(Settings.fontBold);
@@ -82,7 +102,10 @@ public class SortSelection extends JPanel {
         c.fill = fill;
     }
 
-    private void initSelectPane() {
+    /**
+     * Initialisiere SelectedPane mit allen verfügbaren Sortieralgorithmen
+     */
+    private void initSelectPanel() {
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
 
         for (String alg : benchmarker.getAvailableSorter()) {
@@ -104,10 +127,16 @@ public class SortSelection extends JPanel {
         }
     }
 
+    /**
+     * Initialisiere SelectedPanel
+     */
     private void initSelectedPanel() {
         selectedPanel.setLayout(new BoxLayout(selectedPanel, BoxLayout.Y_AXIS));
     }
 
+    /**
+     * Update SeletectedPanel um die ausgewählten Algorithmen anzuzeigen
+     */
     private void updateSelectedPanel() {
         selectedPanel.removeAll();
 
@@ -124,6 +153,9 @@ public class SortSelection extends JPanel {
         repaint();
     }
 
+    /**
+     * Aktiviert alle Knöpfe in der Sortier-Auswahl
+     */
     public void enableButtons() {
         for (Component component : selectPanel.getComponents()) {
             if (component instanceof  AlgorithmComponent) {
@@ -137,6 +169,9 @@ public class SortSelection extends JPanel {
         }
     }
 
+    /**
+     * Deaktiviert alle Knöpfe in der Sortier-Auswahl
+     */
     public void disableButtons() {
         for (Component component : selectPanel.getComponents()) {
             if (component instanceof  AlgorithmComponent) {
@@ -154,6 +189,11 @@ public class SortSelection extends JPanel {
 
         private final JButton btn;
 
+        /**
+         * @param name          Name des Algorithmus
+         * @param buttonText    Text der auf dem Knopf angezeigt wird ("+"/"-")
+         * @param listener      ActionListener von dem Knopf
+         */
         public AlgorithmComponent(String name, String buttonText, ActionListener listener) {
             setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -174,10 +214,16 @@ public class SortSelection extends JPanel {
             setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) getPreferredSize().getHeight()));
         }
 
+        /**
+         * Aktiviert Knopf
+         */
         public void enableButton() {
             btn.setEnabled(true);
         }
 
+        /**
+         * Deaktiviert Knopf
+         */
         public void disableButton() {
             btn.setEnabled(false);
         }
