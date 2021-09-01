@@ -30,19 +30,19 @@ public class QuickSort extends Sorter {
      */
     int partition(int unsortedLeftPart, int unsortedRightPart) {
 
-        int sortedLeftPart, sortedRightPart, pivot = array[(unsortedLeftPart + unsortedRightPart) / 2];
+        int sortedLeftPart, sortedRightPart, pivot = array[(unsortedLeftPart + unsortedRightPart) / 2]; //pivot element in der Mitte wählen
         sortedLeftPart = unsortedLeftPart - 1;
         sortedRightPart = unsortedRightPart + 1;
         while (true) {
             do {
                 sortedLeftPart++;
-            } while (array[sortedLeftPart] < pivot);
+            } while (array[sortedLeftPart] < pivot); //solange die Elemente kleiner sind als das Pivotelement
 
             do {
                 sortedRightPart--;
-            } while (array[sortedRightPart] > pivot);
+            } while (array[sortedRightPart] > pivot); //solange die Elemente größer sind als das Pivotelement
 
-            if (sortedLeftPart < sortedRightPart) {
+            if (sortedLeftPart < sortedRightPart) { //zwei Elemente tauschen
                 int k = array[sortedLeftPart];
                 array[sortedLeftPart] = array[sortedRightPart];
                 array[sortedRightPart] = k;

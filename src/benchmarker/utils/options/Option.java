@@ -2,16 +2,21 @@ package benchmarker.utils.options;
 
 public class Option {
 
-    private String option;
-    private OptionType optionType;
-    private Object defaultValue;
+    private final String option;
+    private final OptionType optionType;
+    private final Object defaultValue;
+
+    private final int min;
+    private final int max;
+    private final int step;
 
     private Object value;
 
-    private int min;
-    private int max;
-    private int step;
-
+    /**
+     * @param option        Name der Option
+     * @param optionType    Typ der Option
+     * @param defaultValue  Standardwert der Option
+     */
     public Option(String option, OptionType optionType, Object defaultValue) {
         this.option = option;
         this.optionType = optionType;
@@ -22,6 +27,13 @@ public class Option {
         this.step = 0;
     }
 
+    /**
+     * @param option        Name der Option
+     * @param optionType    Typ der Option
+     * @param defaultValue  Standardwert der Option
+     * @param min           minimal einstellbarer Wert (Nur bei ArrayType.NUMBER)
+     * @param max           maximal einstellbarer Wert (Nur bei ArrayType.NUMBER)
+     */
     public Option(String option, OptionType optionType, Object defaultValue, int min, int max) {
         this.option = option;
         this.optionType = optionType;
@@ -32,6 +44,14 @@ public class Option {
         this.step = 1;
     }
 
+    /**
+     * @param option        Name der Option
+     * @param optionType    Typ der Option
+     * @param defaultValue  Standardwert der Option
+     * @param min           minimal einstellbarer Wert (Nur bei ArrayType.NUMBER)
+     * @param max           maximal einstellbarer Wert (Nur bei ArrayType.NUMBER)
+     * @param step          Schrittgröße (Nur bei ArrayType.NUMBER)
+     */
     public Option(String option, OptionType optionType, Object defaultValue, int min, int max, int step) {
         this.option = option;
         this.optionType = optionType;
@@ -42,34 +62,58 @@ public class Option {
         this.step = step;
     }
 
+    /**
+     * @return      maximal einstellbarer Wert
+     */
     public int getMax() {
         return max;
     }
 
+    /**
+     * @return      minimal einstellbarer Wert
+     */
     public int getMin() {
         return min;
     }
 
+    /**
+     * @return      Schrittgröße
+     */
     public int getStep() {
         return step;
     }
 
+    /**
+     * @return      Name der Option
+     */
     public String getOption() {
         return option;
     }
 
+    /**
+     * @return      Typ der Option
+     */
     public OptionType getOptionType() {
         return optionType;
     }
 
+    /**
+     * @return      Standardwert
+     */
     public Object getDefaultValue() {
         return defaultValue;
     }
 
+    /**
+     * @param value neuer Wert
+     */
     public void setValue(Object value) {
         this.value = value;
     }
 
+    /**
+     * @return      aktueller Wert
+     */
     public Object getValue() {
         return value;
     }

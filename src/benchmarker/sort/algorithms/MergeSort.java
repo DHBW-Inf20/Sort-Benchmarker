@@ -39,30 +39,30 @@ public class MergeSort extends Sorter
      */
     private void mergesort(int low, int high)
     {
-        if (low<high) //if there is more than 1 element
+        if (low<high) //Wenn es mehr als ein Element gibt
         {
             int m=low+(high-low)/2;
             mergesort(low, m);
-            mergesort(m+1, high);
-            merge(low, m, high);
+            mergesort(m+1, high); //die beiden rekursiven Aufrufe teilen das komplette Array in Einzelteile
+            merge(low, m, high); //merge fügt alles zusammen
         }
     }
 
     /**
      *
-     * @param momentanerPunkt
+     * @param currentPoint
      * @param rest
      * @param until
      */
-    void merge(int momentanerPunkt, int rest, int until) //bitte auf englisch machen kuss kuss
+    void merge(int currentPoint, int rest, int until) //bitte auf englisch machen kuss kuss
     {
         int leftSide, rightSide, leftAndRightSide;
 
-        //copy both halfs
-        for (leftSide=momentanerPunkt; leftSide<=until; leftSide++)
+        //kopiert beide Hälften
+        for (leftSide=currentPoint; leftSide<=until; leftSide++)
             tempArray[leftSide]= leftarray[leftSide];
 
-        leftSide=momentanerPunkt; rightSide=rest+1; leftAndRightSide=momentanerPunkt;
+        leftSide=currentPoint; rightSide=rest+1; leftAndRightSide=currentPoint;
         // jeweils das nächstgrößte Element zurückkopieren
         while (leftSide<=rest && rightSide<=until)
             if (tempArray[leftSide]<= tempArray[rightSide])
