@@ -43,7 +43,7 @@ public class OptionsDialog extends JFrame {
                     break;
                 case NUMBER:
                     dynamicHeight += 35;
-                    SpinnerModel spinnerModel = new SpinnerNumberModel(((Integer) option.getValue()).intValue(), Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
+                    SpinnerNumberModel spinnerModel = new SpinnerNumberModel(((Integer) option.getValue()).intValue(), option.getMin(), option.getMax(), option.getStep());
                     JSpinner spinner = new JSpinner(spinnerModel);
                     l.setLabelFor(spinner);
                     p.add(spinner);

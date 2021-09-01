@@ -13,7 +13,7 @@ public class QuickSortMT extends Sorter {
     private ForkJoinPool pool;
 
     public QuickSortMT() {
-        addOption(new Option("Threads", OptionType.NUMBER, 8));
+        addOption(new Option("Threads", OptionType.NUMBER, 8, 1, Integer.MAX_VALUE));
         addOption(new Option("commonPool", OptionType.BOOL, false));
     }
 

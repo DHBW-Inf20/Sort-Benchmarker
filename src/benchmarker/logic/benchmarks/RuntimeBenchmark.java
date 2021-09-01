@@ -21,8 +21,8 @@ public class RuntimeBenchmark extends Benchmark {
     public RuntimeBenchmark() {
         contents = new ArrayList<>();
 
-        addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
-        addOption(new Option("Iterationen", OptionType.NUMBER, 10));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000, 1, Integer.MAX_VALUE, 100000));
+        addOption(new Option("Iterationen", OptionType.NUMBER, 10, 1, Integer.MAX_VALUE));
         addOption(new Option("Balken anzeigen", OptionType.BOOL, true));
     }
 

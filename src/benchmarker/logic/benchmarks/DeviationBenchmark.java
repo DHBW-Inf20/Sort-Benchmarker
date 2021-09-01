@@ -17,8 +17,8 @@ public class DeviationBenchmark extends Benchmark {
     public DeviationBenchmark() {
         contents = new ArrayList<>();
 
-        addOption(new Option("Array-Größe", OptionType.NUMBER, 500000));
-        addOption(new Option("Iterationen", OptionType.NUMBER, 50));
+        addOption(new Option("Array-Größe", OptionType.NUMBER, 500000,1, Integer.MAX_VALUE, 50000));
+        addOption(new Option("Iterationen", OptionType.NUMBER, 50,1, Integer.MAX_VALUE));
     }
 
     @Override
