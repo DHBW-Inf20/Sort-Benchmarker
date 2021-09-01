@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class OptionTest {
 
     @Test
-    void OptionTest() {
+    void optionTest() {
         Option option = new Option("TestOption", NUMBER, 8);
         assertNotNull(option);
         assertEquals("TestOption", option.getOption());

@@ -17,9 +17,6 @@ public class Main {
         benchmarker.addSorterClass(MergeSort.class);
         benchmarker.addSorterClass(MergeSortMT.class);
 
-        benchmarker.addSorterClass(InsertionSort.class);
-        benchmarker.addSorterClass(SelectionSort.class);
-
         benchmarker.addBenchmark(new RuntimeBenchmark());
         benchmarker.addBenchmark(new DeviationBenchmark());
 

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MergeSortTest {
 
     @Test
-    void MergeSortTest() {
+    void mergeSortTest() {
         MergeSort mergeSort = new MergeSort();
         assertNotNull(mergeSort);
         assertEquals("MergeSort", mergeSort.getName());

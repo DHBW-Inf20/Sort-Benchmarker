@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class QuickSortTest {
 
     @Test
-    void QuickSortTest() {
+    void quickSortTest() {
         QuickSort quickSort = new QuickSort();
         assertNotNull(quickSort);
         assertEquals("QuickSort", quickSort.getName());
