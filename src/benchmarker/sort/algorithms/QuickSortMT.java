@@ -70,16 +70,19 @@ public class QuickSortMT extends Sorter {
 
             while (i <= j) {
 
+                //es wird ein größeres Element als das Pivot Element gesucht
                 if (arr[i] <= arr[unsortedRightPart]) {
                     i++;
                     continue;
                 }
 
+                //es wird ein kleineres Element als das Pivot Element gesucht
                 if (arr[j] >= arr[unsortedRightPart]) {
                     j--;
                     continue;
                 }
 
+                //die Seite des Elements das auf der falschen Seite des Pivotelements liegt, wird geändert
                 t = arr[j];
                 arr[j] = arr[i];
                 arr[i] = t;
@@ -117,8 +120,10 @@ public class QuickSortMT extends Sorter {
 
             int p = partion(start, end, arr);
 
+            //sortiert linke Hälfte
             QuickSortMT.Sort left = new QuickSortMT.Sort(start, p - 1, arr);
 
+            //sortiert rechte Hälfte
             QuickSortMT.Sort right = new QuickSortMT.Sort(p + 1, end, arr);
 
             left.fork();
