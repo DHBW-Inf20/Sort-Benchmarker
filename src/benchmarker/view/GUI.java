@@ -12,6 +12,9 @@ public class GUI extends JFrame {
 
     private final Benchmarker benchmarker;
 
+    /**
+     * @param benchmarker   Benchmarker Instanz
+     */
     public GUI(Benchmarker benchmarker) {
         super("Sort-Benchmarker");
         this.benchmarker = benchmarker;
@@ -19,6 +22,9 @@ public class GUI extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Initialisiere Frame
+     */
     private void initFrame() {
         this.setSize(1400, 800);
         this.setMinimumSize(new Dimension(1250, 400));
@@ -30,6 +36,11 @@ public class GUI extends JFrame {
         this.add(panel);
     }
 
+    /**
+     * initialisiert SortSelection, ResultPanel und SortHeader und fügt sie dem MainPanel hinzu
+     *
+     * @param panel     MainPanel des Frames
+     */
     private void initPanel(JPanel panel) {
         panel.setLayout(new BorderLayout());
 

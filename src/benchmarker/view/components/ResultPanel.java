@@ -21,6 +21,11 @@ public class ResultPanel extends JPanel {
     private final HashMap<Sorter, JPanel> sortResultPanels;
     public HashMap<Sorter, Integer> testResult;
 
+    /**
+     * Im ResultPanel werden die Ergebnisse des Benchmarks angezeigt
+     *
+     * @param benchmarker   Benchmarker Instanz
+     */
     public ResultPanel(Benchmarker benchmarker) {
         this.benchmarker = benchmarker;
 
@@ -56,26 +61,43 @@ public class ResultPanel extends JPanel {
         add(south, BorderLayout.SOUTH);
     }
 
+    /**
+     * Aktiviert den Exportknopf (später evtl. mehr Knöpfe)
+     */
     public void enableButtons() {
         if (exportBtn != null) {
             exportBtn.setEnabled(true);
         }
     }
 
+    /**
+     * Deaktiviert den Exportknopf (später evtl. mehr Knöpfe)
+     */
     public void disableButtons() {
         if (exportBtn != null) {
             exportBtn.setEnabled(false);
         }
     }
 
+    /**
+     * @param testResult    Testergebnisse vom Benchmarker
+     */
     public void setTestResult(HashMap<Sorter, Integer> testResult) {
         this.testResult = testResult;
     }
 
+    /**
+     * initialisiere Panel
+     */
     private void initPanel() {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     }
 
+    /**
+     * Initialisiere Panels von allen zu testenden Sortieralgorithmen
+     *
+     * @param benchmark     Benchmarker Instanz
+     */
     public void initPanels(Benchmark benchmark) {
         panel.removeAll();
         sortResultPanels.clear();
@@ -106,6 +128,11 @@ public class ResultPanel extends JPanel {
     }
 
     private static class AlgorithmComponent extends JPanel {
+        /**
+         * @param name              Name des Sortieralgorithmus
+         * @param testsPassed       Wie viele Tests bestanden wurden
+         * @param sortResultPanel   Das zu dem Algorithmus gehörenden Panel um die Ergebnisse anzuzeigen
+         */
         public AlgorithmComponent(String name, int testsPassed, JPanel sortResultPanel) {
             setLayout(new BorderLayout());
 

@@ -19,6 +19,13 @@ public class SortHeader extends JPanel {
     private Thread benchmarkThread;
     private boolean benchmarksRunning;
 
+    /**
+     * Im SortHeader wird die Benchmark-Auswahl, deren Option, die Array-Auswahl und der Start und Stop Knopf angezeigt
+     *
+     * @param benchmarker       Benchmarker Instanz
+     * @param resultPanel       ResultPanel Instanz
+     * @param sortSelection     SortSelection Instanz
+     */
     public SortHeader(Benchmarker benchmarker, ResultPanel resultPanel, SortSelection sortSelection) {
         this.benchmarker = benchmarker;
         this.resultPanel = resultPanel;
@@ -29,6 +36,9 @@ public class SortHeader extends JPanel {
 
     }
 
+    /**
+     * Initialisiere SortHeader mit Benchmark-Auswahl, deren Option, die Array-Auswahl und der Start und Stop Knopf
+     */
     public void init() {
         JPanel west = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel east = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -97,6 +107,14 @@ public class SortHeader extends JPanel {
         add(west, BorderLayout.WEST);
     }
 
+    /**
+     * Erstellt Thread des auszuführenden Benchmarks
+     *
+     * @param benchmark     Benchmark Instanz
+     * @param arrayType     ausgewählter Array-Typ
+     * @param finish        Runnable was nach dem Benchmark ausgeführt werden soll
+     * @return              Benchmark-Thread
+     */
     private Thread createBenchmarkThread(String benchmark, Benchmark.ArrayType arrayType, Runnable finish) {
         HashMap<Sorter, Integer> testResult = benchmarker.testAlgorithms();
         resultPanel.setTestResult(testResult);

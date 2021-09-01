@@ -11,6 +11,14 @@ import java.util.List;
 
 public class OptionsDialog extends JFrame {
 
+    /**
+     * Öffnet ein Dialogfenster wo alle Optionen dynamisch angezeigt werden und editierbar sind.
+     *
+     * @param title         Titel des Dialog-Fensters
+     * @param buttonText    Text des Knopfes im Dialog-Fenster
+     * @param options       Options Instanz, wo alle zu editierenden Optionen gespeichert sind
+     * @param addRunnable   Runnable was nach dem Drücken des Knopfes ausgeführt wird
+     */
     public OptionsDialog(String title, String buttonText, Options options, Runnable addRunnable) {
         setLocation(MouseInfo.getPointerInfo().getLocation());
         setTitle(title);
@@ -23,16 +31,22 @@ public class OptionsDialog extends JFrame {
         init(optionList, addRunnable, buttonText);
     }
 
+    /**
+     * @param options       Options Instanz, wo alle zu editierenden Optionen gespeichert sind
+     * @param addRunnable   Runnable was nach dem Drücken des Knopfes ausgeführt wird
+     * @param buttonText    Text des Knopfes im Dialog-Fenster
+     */
     private void init(List<Option> options, Runnable addRunnable, String buttonText) {
         JPanel p = new JPanel(new SpringLayout());
 
-        int dynamicHeight = 40;
+        int dynamicHeight = 40; // Größe für Knopf (wurde experimentell bestimmt)
 
         HashMap<String, JComponent> inputs = new HashMap<>();
 
         for (Option option : options) {
             JLabel l = new JLabel(option.getOption() + ":", JLabel.TRAILING);
             p.add(l);
+            // Je nach Option wird ein anderer Component dem Panel hinzugefügt
             switch (option.getOptionType()) {
                 case STRING:
                     dynamicHeight += 35;
@@ -64,6 +78,7 @@ public class OptionsDialog extends JFrame {
         JButton addBtn = new JButton(buttonText);
         addBtn.addActionListener(e -> {
             for (Option option : options) {
+                // Je nach Option werden die Daten anders aus dem Component ausgelesen
                 switch (option.getOptionType()) {
                     case STRING:
                         String strValue = ((JTextField) inputs.get(option.getOption())).getText();
@@ -85,9 +100,9 @@ public class OptionsDialog extends JFrame {
         p.add(addBtn);
 
         SpringUtilities.makeCompactGrid(p,
-                options.size() + 1, 2,        //rows, cols
-                6, 6,                          //initX, initY
-                15, 6);                           //xPad, yPad
+                options.size() + 1, 2, // Reihen, Spalten
+                6, 6, // Versatz X, Versatz Y
+                15, 6); // Differenz X, Differenz Y
 
         add(p);
 
