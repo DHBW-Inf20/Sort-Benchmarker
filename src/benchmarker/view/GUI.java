@@ -19,7 +19,6 @@ public class GUI extends JFrame {
         super("Sort-Benchmarker");
         this.benchmarker = benchmarker;
         this.initFrame();
-        this.setVisible(true);
     }
 
     /**

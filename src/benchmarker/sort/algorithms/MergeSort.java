@@ -5,7 +5,6 @@ import benchmarker.sort.Sorter;
 public class MergeSort extends Sorter
 {
     /**
-     *
      * @return          Name des Sortieralgorithmus
      */
     @Override
@@ -19,6 +18,7 @@ public class MergeSort extends Sorter
 
     /**
      * Das unsortierte Array wird rekursiv in zwei Teile aufgeteilt, die getrennt sortiert und anschließend wieder zusammengefügt werden.
+     *
      * @param toSort    Zu sortierendes Array
      * @return
      */
@@ -33,7 +33,6 @@ public class MergeSort extends Sorter
     }
 
     /**
-     *
      * @param low
      * @param high
      */
@@ -49,7 +48,6 @@ public class MergeSort extends Sorter
     }
 
     /**
-     *
      * @param currentPoint
      * @param rest
      * @param until

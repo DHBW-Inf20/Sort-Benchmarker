@@ -15,6 +15,7 @@ public class CSVUtils {
 
     /**
      * Konstruktor zur Initialisierung der CSV-Datei und des Inhalts
+     *
      * @param file      File-Objekt zur Speicherung der Daten in CSV-Format
      */
     public CSVUtils(File file) {
@@ -24,6 +25,7 @@ public class CSVUtils {
 
     /**
      * Zuweisung der Spaltenüberschrift für die CSV-Datei
+     *
      * @param header        Name der Spaltenüberschrift
      */
     public void setHeader(String[] header) {
@@ -31,9 +33,8 @@ public class CSVUtils {
     }
 
     /**
-     *
-     * @param content
-     * @return
+     * @param content   Ergebnisse für die CSV Datei
+     * @return          Gültig (von der länge des Arrays)
      */
     public boolean addContent(String[] content) {
         if (header.length == content.length) {
@@ -45,9 +46,9 @@ public class CSVUtils {
 
     /**
      * Versuch die Daten in die CSV-Datei einzufügen.
+     *
      * @return              Wahr, wenn das Schreiben in die CSV-Datei erfolgreich.
      *                      Falsch, ansonsten.
-     * @throws IOException  Fehlermeldung bei missglücktem Zugriff auf die CSV-Datei.
      */
     public boolean writeFile() throws IOException {
         if (header == null || contents.isEmpty()) {

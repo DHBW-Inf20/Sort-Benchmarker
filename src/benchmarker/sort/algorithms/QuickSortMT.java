@@ -18,7 +18,6 @@ public class QuickSortMT extends Sorter {
     }
 
     /**
-     *
      * @return          Name des Sortieralgorithmus
      */
     @Override
@@ -36,7 +35,6 @@ public class QuickSortMT extends Sorter {
     }
 
     /**
-     *
      * @param toSort    Zu sortierendes Array
      * @return          Zu sortierendes Array
      */
@@ -52,7 +50,6 @@ public class QuickSortMT extends Sorter {
         int[] arr;
 
         /**
-         *
          * @param unsortedLeftPart    unsortierter linker Teil des Arrays
          * @param unsortedRightPart   unsortierter rechter Teil des Arrays
          * @param arr                 Hilfsarray
@@ -97,7 +94,6 @@ public class QuickSortMT extends Sorter {
         }
 
         /**
-         *
          * @param unsortedLeftPart    unsortierter linker Teil des Arrays
          * @param unsortedRightPart   unsortierter rechter Teil des Arrays
          * @param arr                 Hilfsarray
@@ -109,7 +105,6 @@ public class QuickSortMT extends Sorter {
         }
 
         /**
-         *
          * @return          null zurückgeben
          */
         @Override

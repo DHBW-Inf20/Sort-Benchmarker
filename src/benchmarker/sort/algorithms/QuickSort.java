@@ -7,7 +7,6 @@ public class QuickSort extends Sorter {
     public static int[] array;
 
     /**
-     *
      * @param unsortedLeftPart      unsortiertes Teilarray links vom Pivotelement
      * @param unsortedRightPart     unsortiertes Teilarray rechts vom Pivotelement
      * @return                      Rückgabe teilsortiertes Array
@@ -53,7 +52,6 @@ public class QuickSort extends Sorter {
     }
 
     /**
-     *
      * @return                      Name des Sortieralgorithmus
      */
     @Override
@@ -62,7 +60,6 @@ public class QuickSort extends Sorter {
     }
 
     /**
-     *
      * @param toSort                Zu sortierendes Array
      * @return                      sortiertes Array
      */

@@ -18,7 +18,6 @@ public class MergeSortMT extends Sorter {
     }
 
     /**
-     *
      * @return              Name des Sortieralgorithmus
      */
     @Override
@@ -36,7 +35,6 @@ public class MergeSortMT extends Sorter {
     }
 
     /**
-     *
      * @param toSort        Zu sortierendes Array
      * @return              Zu sortierendes Array
      */
@@ -47,7 +45,6 @@ public class MergeSortMT extends Sorter {
     }
 
     /**
-     *
      * @param firstHalf     erste Hälfte von zu sortierendem Array
      * @param secondHalf    zweite Hälfte von zu sortierendem Array
      * @param array         Hilfsarray
@@ -93,7 +90,6 @@ public class MergeSortMT extends Sorter {
         }
 
         /**
-         *
          * @return          leeres Array
          */
         @Override

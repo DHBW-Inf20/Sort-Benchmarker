@@ -26,6 +26,9 @@ public class DeviationBenchmark extends Benchmark {
         return "Abweichung Benchmark";
     }
 
+    /**
+     * @param sortPool Liste an Objekten aller hinzugefügten {@link Sorter}
+     */
     @Override
     public void benchmark(List<Sorter> sortPool) {
         contents.clear();
@@ -101,6 +104,10 @@ public class DeviationBenchmark extends Benchmark {
         return Math.sqrt(variance);
     }
 
+    /**
+     * @param panel Panel eines {@link Sorter}
+     * @param data  Daten, welche mit {@link #updateResult(Sorter, Object)} mitgesendet wurden
+     */
     @Override
     protected void updateResult(JPanel panel, Object data) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -130,6 +137,9 @@ public class DeviationBenchmark extends Benchmark {
         panel.add(variationLabel);
     }
 
+    /**
+     * @param csvUtils {@link CSVUtils}
+     */
     @Override
     public void exportResults(CSVUtils csvUtils) {
         csvUtils.setHeader(new String[] {"Algorithmus", "Mittlere Laufzeit", "Spannweite", "Standardabweichung", "Variationskoeffizient"});
