@@ -110,7 +110,6 @@ public class RuntimeBenchmark extends Benchmark {
         if (showBars) {
             if (result.get("globalMax") != null) {
                 long globalMax = (Long) result.get("globalMax");
-                System.out.println(globalMax);
                 Bar bar = new Bar(mean / (double)  globalMax, min / (double) globalMax, max / (double) globalMax);
                 bar.setPreferredSize(new Dimension(800, 30));
                 panel.add(bar);
@@ -137,7 +136,7 @@ public class RuntimeBenchmark extends Benchmark {
     }
 
     /**
-     * @param csvUtils {@link CSVUtils} 
+     * @param csvUtils {@link CSVUtils}
      */
     @Override
     public void exportResults(CSVUtils csvUtils) {
