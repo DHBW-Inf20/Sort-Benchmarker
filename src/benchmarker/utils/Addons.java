@@ -16,6 +16,10 @@ import java.util.zip.ZipFile;
 
 public class Addons {
 
+    /**
+     * Laden von externen Benchmarks oder Sortieralgorithmen.
+     * @param benchmarker       Ausgewählter Benchmark.
+     */
     public static void loadAddons(Benchmarker benchmarker) {
         try {
             Addons.loadExternalAlgorithms(benchmarker);
@@ -25,6 +29,10 @@ public class Addons {
         }
     }
 
+    /**
+     * Laden von externen Sortieralgorithmen.
+     * @param benchmarker               Ausgewählter Benchmark.
+     */
     private static void loadExternalAlgorithms(Benchmarker benchmarker) throws IOException, ClassNotFoundException {
 
         File folder = new File("addons/sorter");
@@ -57,6 +65,10 @@ public class Addons {
         }
     }
 
+    /**
+     * Laden von externen Benchmarks.
+     * @param benchmarker                   Ausgewählter Benchmark.
+     */
     private static void loadExternalBenchmarks(Benchmarker benchmarker) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         File folder = new File("addons/benchmarks");
