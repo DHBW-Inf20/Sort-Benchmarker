@@ -77,7 +77,7 @@ public class MergeSortMT extends Sorter {
             startFirst++;
         }
 
-        //Die Elemente werden richtig sortiert zurück in startFirst geschrieben
+        //Die Elemente werden richtig sortiert zurück in startSecond geschrieben
         while (startSecond < secondHalf.length) {
             array[currentIndexArray] = secondHalf[startSecond];
             currentIndexArray++;

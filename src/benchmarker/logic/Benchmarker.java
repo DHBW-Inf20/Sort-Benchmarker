@@ -27,37 +27,71 @@ public class Benchmarker {
     }
 
 
+    /**
+     * @param benchmark Benchmark, der hinzugefügt werden soll
+     */
     public void addBenchmark(Benchmark benchmark) {
         String name = benchmark.getName();
         benchmarks.put(name, benchmark);
     }
 
+    /**
+     * @return          Alle verfügbaren Benchmarks
+     */
     public List<String> getAvailableBenchmarks() {
         return new ArrayList<>(benchmarks.keySet());
     }
 
+    /**
+     * @param benchmark Benchmark Name
+     * @return          Benchmark
+     */
     public Benchmark getBenchmark(String benchmark) {
         return benchmarks.get(benchmark);
     }
 
 
+    /**
+     * @return          Alle verfügbaren Sortieralgorithmen
+     */
     public List<String> getAvailableSorter() {
         return new ArrayList<>(sortClasses.keySet());
     }
 
+    /**
+     * @return          Alle ausgewählten Algorithmen
+     */
     public List<Sorter> getSortPool() {
         return sortPool;
     }
 
+    /**
+     * @param sorter    Klasse von einem Sorter
+     */
     public void addSorterClass(Class<? extends Sorter> sorter) {
         String name = sorter.getSimpleName();
         sortClasses.put(name, sorter);
     }
 
+    /**
+     * Von dem jeweiligen Sortieralgorithmus wird eine Instanz erstellt und automatisch zum SortPool hinzugefügt
+     *
+     * @param name      Name des Sortieralgorithmus
+     * @return          Instanz des Sortieralgorithmus
+     */
     public Sorter initOne(String name) {
         return initOne(name, true);
     }
 
+
+    /**
+     *  Von dem jeweiligen Sortieralgorithmus wird eine Instanz und zurückgegeben.
+     *  Man kann entscheiden, ob der Sorter automatisch dem SortPool hinzugefügt werden soll
+     *
+     * @param name          Name des Sortieralgorithmus
+     * @param addToSortPool ob der Algorithmus dem SortPool hinzugefügt werden soll
+     * @return              Instanz des Sortieralgorithmus
+     */
     public Sorter initOne(String name, boolean addToSortPool) {
         Class<? extends Sorter> sorterClass = sortClasses.get(name);
         try {
@@ -73,6 +107,9 @@ public class Benchmarker {
         return null;
     }
 
+    /**
+     * @param sorter    Sorter, der dem SortPool hinzugefügt werden soll
+     */
     public void addToSortPool(Sorter sorter) {
         try {
             sorter.initSorter();
@@ -82,10 +119,16 @@ public class Benchmarker {
         }
     }
 
+    /**
+     * @param sorter    Sorter, der aus dem SortPool entfernt werden soll
+     */
     public void removeSorter(Sorter sorter) {
         sortPool.remove(sorter);
     }
 
+    /**
+     * Von allen verfügbaren Sortieralgorithmen wird eine Instanz erstellt und dem SortPool hinzugefügt
+     */
     public void initAll() {
         for (String name : sortClasses.keySet()) {
             Class<? extends Sorter> sorterClass = sortClasses.get(name);
@@ -98,6 +141,9 @@ public class Benchmarker {
         }
     }
 
+    /**
+     * @return      HashMap<Sorter, Integer> Mit Anzahl der erfolgreichen Tests für jeden Sorter
+     */
     public HashMap<Sorter, Integer> testAlgorithms() {
         HashMap<Sorter, Integer> result = new HashMap<>();
 
@@ -147,6 +193,13 @@ public class Benchmarker {
         return result;
     }
 
+    /**
+     * Testet, ob ein Array sortiert wurde (egal ob auf- oder absteigend)
+     *
+     * @param arr       Array, welches zu überprüfen gilt
+     * @param length    länge des "Soll-Arrays"
+     * @return          Ob das Array richtig Sortiert wurde
+     */
     private boolean isSorted(int[] arr, int length) {
         if (arr.length != length) return false;
         int direction = 0; // 1 = ASC; 2 = DESC
@@ -166,34 +219,37 @@ public class Benchmarker {
         return true;
     }
 
-    public void sort(int[] array) {
-        for (Sorter sorter : sortPool) {
-            int[] toSort = Arrays.copyOf(array, array.length);
-            System.out.println("Soter: " + sorter.getName());
-            long start = System.currentTimeMillis();
-            sorter.sort(toSort);
-            long stop = System.currentTimeMillis();
-            System.out.println("Duration: " + (stop - start) + " ms");
-            System.out.println();
-        }
-    }
-
+    /**
+     * @param benchmark     Name des Benchmarks, der durchgeführt werden soll
+     */
     public void benchmark(String benchmark) {
         if (benchmarks.get(benchmark) != null) {
             benchmark(benchmarks.get(benchmark));
         }
     }
 
-    public Benchmark getCurrentBenchmark() {
-        return currentBenchmark;
-    }
-
+    /**
+     * @param benchmark     Instanz des Benchmarks, der durchgeführt werden soll
+     */
     public void benchmark(Benchmark benchmark) {
         currentBenchmark = benchmark;
         benchmark.beforeBenchmark();
         benchmark.benchmark(sortPool);
     }
 
+    /**
+     * @return              Name des Benchmarks, der gerade durchgeführt wird, oder als letztes durchgeführt wurde
+     */
+    public Benchmark getCurrentBenchmark() {
+        return currentBenchmark;
+    }
+
+    /**
+     * Exportiert das Ergebnis des Benchmarks als CSV-Datei
+     *
+     * @return              Ob der Export erfolgreich abgeschlossen wurde
+     * @throws IOException
+     */
     public boolean exportResults() throws IOException {
         if (getCurrentBenchmark() == null) {
             return false;
