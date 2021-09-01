@@ -1,6 +1,5 @@
 package tests;
 
-import benchmarker.logic.Benchmark;
 import benchmarker.logic.Benchmarker;
 import benchmarker.logic.benchmarks.RuntimeBenchmark;
 import benchmarker.sort.Sorter;

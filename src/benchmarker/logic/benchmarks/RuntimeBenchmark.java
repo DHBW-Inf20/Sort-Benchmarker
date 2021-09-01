@@ -23,7 +23,7 @@ public class RuntimeBenchmark extends Benchmark {
 
         addOption(new Option("Array-Größe", OptionType.NUMBER, 1000000));
         addOption(new Option("Iterationen", OptionType.NUMBER, 10));
-        addOption(new Option("Balken zeigen", OptionType.BOOL, true));
+        addOption(new Option("Balken anzeigen", OptionType.BOOL, true));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RuntimeBenchmark extends Benchmark {
 
         int arraySize = (int) getValue("Array-Größe");
         int iterations = (int) getValue("Iterationen");
-        showBars = (boolean) getValue("Balken zeigen");
+        showBars = (boolean) getValue("Balken anzeigen");
 
         Random random = new Random();
         long[] seeds = new long[iterations];
@@ -157,9 +157,9 @@ public class RuntimeBenchmark extends Benchmark {
             if (mean != -1) {
                 g.setColor(new Color(204, 0, 0));
                 g.fillRect(0, 5, (int) (getWidth() * max), getHeight() - 10);
-                g.setColor(new Color(255, 173, 51));
-                g.fillRect(0, 5, (int) (getWidth() * min), getHeight() - 10);
                 g.setColor(new Color(0, 160, 0));
+                g.fillRect(0, 5, (int) (getWidth() * min), getHeight() - 10);
+                g.setColor(new Color(0 ,0, 0));
                 g.fillRect((int) (getWidth() * mean) - 2, 0, 4, getHeight());
             }
         }
