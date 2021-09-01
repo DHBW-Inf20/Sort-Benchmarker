@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class DeviationBenchmarkTest {
 
     @Test
-    void DeviationBenchmarkTest() {
+    void deviationBenchmarkTest() {
         DeviationBenchmark deviationBenchmark = new DeviationBenchmark();
         assertEquals("Abweichung Benchmark", deviationBenchmark.getName());
         deviationBenchmark.setArrayType(Benchmark.ArrayType.ASC);

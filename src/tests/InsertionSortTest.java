@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class InsertionSortTest {
 
     @Test
-    void InsertionSortTest() {
+    void insertionSortTest() {
         InsertionSort insertionSort = new InsertionSort();
         assertNotNull(insertionSort);
         assertEquals("InsertionSort", insertionSort.getName());

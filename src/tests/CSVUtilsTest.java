@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CSVUtilsTest {
 
     @Test
-    void CSVUtilsTest() {
+    void csvUtilsTest() {
         CSVUtils csv = new CSVUtils(new File("TestPath"));
         csv.setHeader(new String[] {"Title1", "Title2"});
         assertFalse(csv.addContent(new String[] {"Daten1"}));
