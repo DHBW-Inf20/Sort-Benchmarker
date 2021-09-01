@@ -57,6 +57,7 @@ public class MergeSortMT extends Sorter {
         int startSecond = 0;
         int currentIndexArray = 0;
 
+        //setzt das kleinere Element auf das Array
         while (startFirst < firstHalf.length && startSecond < secondHalf.length) {
             if (firstHalf[startFirst] < secondHalf[startSecond]) {
                 array[currentIndexArray] = firstHalf[startFirst];
@@ -69,12 +70,14 @@ public class MergeSortMT extends Sorter {
             }
         }
 
+        //Die Elemente werden richtig sortiert zurück in startFirst geschrieben
         while (startFirst < firstHalf.length) {
             array[currentIndexArray] = firstHalf[startFirst];
             currentIndexArray++;
             startFirst++;
         }
 
+        //Die Elemente werden richtig sortiert zurück in startFirst geschrieben
         while (startSecond < secondHalf.length) {
             array[currentIndexArray] = secondHalf[startSecond];
             currentIndexArray++;
